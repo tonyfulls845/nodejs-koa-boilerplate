@@ -3,7 +3,8 @@
     "moduleResolution": "Node",
     "rootDir": "./src",
     "outDir": "build",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules"
