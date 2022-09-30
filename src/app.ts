@@ -1,19 +1,14 @@
 import Koa from "koa";
+import mount from "koa-mount";
+
 import mongoose from "mongoose";
 const app = new Koa();
 
 import { MONGO_URI, PORT } from "./config";
-import { IUser, User } from "./models/User";
+import { authRouter } from "./modules/auth";
 
 mongoose.connect(MONGO_URI);
 
-app.use(async (ctx) => {
-  const user = new User<IUser>({ firstName: "1", lastName: "1" });
-  await user.save();
-
-  const all = await User.find();
-
-  ctx.body = all;
-});
+app.use(mount("/api/auth", authRouter));
 
 app.listen(PORT);

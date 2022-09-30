@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
     "moduleResolution": "Node",
-    "rootDir": "./src",
+    "rootDir": "src",
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },
   "exclude": [
     "node_modules"
-  ],
-  "include": ["src/**/*", "__tests__/**/*"]
+  ]
 }
