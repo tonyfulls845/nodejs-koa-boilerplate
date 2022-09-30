@@ -33,6 +33,8 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
-const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_DB_NAME } = envVars;
+const { MONGO_DB_NAME } = envVars;
 
-export const MONGO_URI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@localhost/${MONGO_DB_NAME}`;
+export const { PORT } = envVars;
+
+export const MONGO_URI = `mongodb://localhost/${MONGO_DB_NAME}`;

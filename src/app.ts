@@ -2,18 +2,18 @@ import Koa from "koa";
 import mongoose from "mongoose";
 const app = new Koa();
 
-import { MONGO_URI } from "./config";
-import { UserSchema } from "./models/User";
+import { MONGO_URI, PORT } from "./config";
+import { IUser, User } from "./models/User";
 
-console.log(MONGO_URI);
-
-mongoose.connect(MONGO_URI).then(console.log).catch(console.log);
+mongoose.connect(MONGO_URI);
 
 app.use(async (ctx) => {
-  const user = mongoose.model("User", UserSchema);
-  console.log(user);
+  const user = new User<IUser>({ firstName: "1", lastName: "1" });
+  await user.save();
 
-  ctx.body = "Hello World";
+  const all = await User.find();
+
+  ctx.body = all;
 });
 
-app.listen(3000);
+app.listen(PORT);

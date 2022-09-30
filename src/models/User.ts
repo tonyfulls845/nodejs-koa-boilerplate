@@ -1,8 +1,15 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
-export const UserSchema = new Schema({
-  firstName: { type: String, default: "", trim: true, maxlength: 256 },
-  lastName: { type: String, default: "", trim: true, maxlength: 256 },
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+}
+
+export const UserSchema = new Schema<IUser>({
+  firstName: { type: String, required: true, maxlength: 256 },
+  lastName: { type: String, required: true, maxlength: 256 },
+  avatar: { type: String },
 });
 
-model("User", UserSchema);
+export const User = model<IUser>("User", UserSchema);
