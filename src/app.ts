@@ -5,10 +5,10 @@ import mongoose from "mongoose";
 const app = new Koa();
 
 import { MONGO_URI, PORT } from "./config";
-import { authRouter } from "./modules/auth";
+import { auth } from "./modules/auth";
 
 mongoose.connect(MONGO_URI);
 
-app.use(mount("/api/auth", authRouter));
+app.use(mount("/api/auth", auth));
 
 app.listen(PORT);

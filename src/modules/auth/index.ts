@@ -12,3 +12,5 @@ authRouter.post(
   validateMiddleware(registerRules),
   controller.register
 );
+
+export const auth = authRouter.routes();

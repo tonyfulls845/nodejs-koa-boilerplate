@@ -255,6 +255,13 @@
     "@types/koa-compose" "*"
     "@types/node" "*"
 
+"@types/koa__router@^12.0.0":
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/@types/koa__router/-/koa__router-12.0.0.tgz#19b0f287f9708267dfd8842feb5f2de407d93af2"
+  integrity sha512-S6eHyZyoWCZLNHyy8j0sMW85cPrpByCbGGU2/BO4IzGiI87aHJ92lZh4E9xfsM9DcbCT469/OIqyC0sSJXSIBQ==
+  dependencies:
+    "@types/koa" "*"
+
 "@types/mime@*":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-3.0.1.tgz#5f8f2bca0a5863cb69bc0b0acd88c96cb1d4ae10"
