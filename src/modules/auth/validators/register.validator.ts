@@ -1,4 +1,4 @@
-import Joi from "joi";
+import Joi from 'joi';
 
 export const registerRules = Joi.object().keys({
   first_name: Joi.string().required(),

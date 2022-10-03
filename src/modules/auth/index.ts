@@ -1,16 +1,12 @@
-import Router from "@koa/router";
+import Router from '@koa/router';
 
-import * as controller from "./auth.controller";
+import { validateMiddleware } from '../../middlewares';
 
-import { validateMiddleware } from "../../middlewares";
-import { registerRules } from "./validators";
+import * as controller from './auth.controller';
+import { registerRules } from './validators';
 
 export const authRouter = new Router();
 
-authRouter.post(
-  "/register",
-  validateMiddleware(registerRules),
-  controller.register
-);
+authRouter.post('/register', validateMiddleware(registerRules), controller.register);
 
 export const auth = authRouter.routes();

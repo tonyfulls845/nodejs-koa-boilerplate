@@ -1,8 +1,8 @@
-import Joi from "joi";
-import dotenv from "dotenv";
-import path from "path";
+import dotenv from 'dotenv';
+import Joi from 'joi';
+import path from 'path';
 
-dotenv.config({ path: path.join(__dirname, "../.env") });
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const envVarsSchema = Joi.object<{
   NODE_ENV: string;
@@ -12,22 +12,18 @@ const envVarsSchema = Joi.object<{
   MONGO_DB_NAME: string;
 }>()
   .keys({
-    NODE_ENV: Joi.string()
-      .valid("production", "development", "test")
-      .required(),
-    PORT: Joi.number().required().description("App port"),
-    MONGO_DB_NAME: Joi.string().required().description("Mongo DB name"),
-    MONGO_USERNAME: Joi.string().required().description("Mongo DB username"),
-    MONGO_PASSWORD: Joi.string().required().description("Mongo DB password"),
+    NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
+    PORT: Joi.number().required().description('App port'),
+    MONGO_DB_NAME: Joi.string().required().description('Mongo DB name'),
+    MONGO_USERNAME: Joi.string().required().description('Mongo DB username'),
+    MONGO_PASSWORD: Joi.string().required().description('Mongo DB password'),
   })
   .unknown();
 
-const { value: envVars, error } = envVarsSchema
-  .prefs({ errors: { label: "key" } })
-  .validate({
-    ...process.env,
-    PORT: parseInt(process.env.PORT, 10),
-  });
+const { value: envVars, error } = envVarsSchema.prefs({ errors: { label: 'key' } }).validate({
+  ...process.env,
+  PORT: parseInt(process.env.PORT, 10),
+});
 
 if (error) {
   throw new Error(`Config validation error: ${error.message}`);

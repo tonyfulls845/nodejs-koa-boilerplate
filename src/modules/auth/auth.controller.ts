@@ -1,3 +1,4 @@
-export const register = (...args) => {
-  console.log(...args, 123);
+export const register = (ctx) => {
+  console.log('register route');
+  ctx.body = 'register route';
 };
