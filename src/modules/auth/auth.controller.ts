@@ -3,9 +3,9 @@ import * as Koa from 'koa';
 
 import { KoaContext } from '../../interfaces';
 
-import { RegisterRequest } from './interfaces/requests';
+import { RegisterRequestModel } from './schema';
 
-export const register: Router.Middleware<Koa.DefaultState, KoaContext<RegisterRequest, RegisterRequest>> = (
+export const register: Router.Middleware<Koa.DefaultState, KoaContext<RegisterRequestModel, RegisterRequestModel>> = (
   ctx,
   next,
 ) => {
