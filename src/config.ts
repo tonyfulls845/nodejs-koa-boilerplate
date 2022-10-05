@@ -10,6 +10,7 @@ const envVarsSchema = Joi.object<{
   MONGO_USERNAME: string;
   MONGO_PASSWORD: string;
   MONGO_DB_NAME: string;
+  HOST: string;
 }>()
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
@@ -17,6 +18,7 @@ const envVarsSchema = Joi.object<{
     MONGO_DB_NAME: Joi.string().required().description('Mongo DB name'),
     MONGO_USERNAME: Joi.string().required().description('Mongo DB username'),
     MONGO_PASSWORD: Joi.string().required().description('Mongo DB password'),
+    HOST: Joi.string().default('localhost').description('App host'),
   })
   .unknown();
 
@@ -31,6 +33,6 @@ if (error) {
 
 const { MONGO_DB_NAME } = envVars;
 
-export const { PORT } = envVars;
+export const { PORT, HOST } = envVars;
 
 export const MONGO_URI = `mongodb://localhost/${MONGO_DB_NAME}`;

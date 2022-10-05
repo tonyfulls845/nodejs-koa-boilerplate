@@ -5,7 +5,11 @@
     "rootDir": "src",
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "target": "esnext",
+    "module": "commonjs"
   },
   "exclude": [
     "node_modules"

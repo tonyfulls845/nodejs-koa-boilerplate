@@ -2,4 +2,4 @@ build
 node_modules
 .env
 
-**/*/*.joi.ts
+**/*/*.interfaces.ts

@@ -13,6 +13,7 @@
     "lodash": "^4.17.21",
     "mongoose": "^6.6.2",
     "nodemon": "^2.0.20",
+    "oas": "^18.4.4",
     "through2": "^4.0.2",
     "ts-node": "^10.9.1"
   },
@@ -25,6 +26,7 @@
     "@types/koa-bodyparser": "^4.3.8",
     "@types/koa-mount": "^4.0.1",
     "@types/koa__router": "^12.0.0",
+    "@types/node": "^18.8.1",
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.38.1",
     "eslint": "^8.24.0",
