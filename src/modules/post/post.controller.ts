@@ -2,7 +2,7 @@ import Router from '@koa/router';
 import * as Koa from 'koa';
 
 import { KoaContext } from '../../interfaces';
-import { CreatePostRequestModel } from '../schemas.joi';
+import { CreatePostRequestModel } from '../schemas.interfaces';
 
 export const create: Router.Middleware<Koa.DefaultState, KoaContext<CreatePostRequestModel, CreatePostRequestModel>> = (
   ctx,
