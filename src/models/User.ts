@@ -1,15 +1,30 @@
+import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 
 export interface UserData {
   firstName: string;
   lastName: string;
-  avatar?: string;
+  password: string;
 }
 
 export const UserSchema = new Schema<UserData>({
   firstName: { type: String, required: true, maxlength: 256 },
   lastName: { type: String, required: true, maxlength: 256 },
-  avatar: { type: String },
+  password: { type: String },
 });
+
+const SALT_WORK_FACTOR = 10;
+
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  const generatedSalt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+  this.password = await bcrypt.hash(this.password, generatedSalt);
+
+  return next();
+});
+
+UserSchema.methods.comparePassword = function (candidatePassword: string) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
 export const User = model<UserData>('User', UserSchema);
