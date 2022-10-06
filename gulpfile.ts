@@ -5,7 +5,7 @@ import { compile } from 'json-schema-to-typescript';
 const endName = 'schema.ts';
 const schemaRoutes = `./src/modules/**/schemas/*${endName}`;
 
-gulp.task('schemas', () => {
+gulp.task('schema', () =>
   import('./src/modules/schemas').then(({ schemas }) => {
     compile(
       {
@@ -16,13 +16,14 @@ gulp.task('schemas', () => {
     ).then((ts) => {
       const cleanedTs = ts.replace(/(^|\r|\n|\r\n)export\stype\sALL.+(^|\r|\n|\r\n)/gi, '');
       fs.writeFileSync('src/modules/schemas.interfaces.ts', cleanedTs);
+      console.log('Write interfaces to file');
     });
-  });
-});
+  }),
+);
 
 // Watch Task
 gulp.task('watch', function () {
-  gulp.watch(schemaRoutes, gulp.series('schemas'));
+  gulp.watch(schemaRoutes, gulp.series('schema'));
 });
 
 // Default Task

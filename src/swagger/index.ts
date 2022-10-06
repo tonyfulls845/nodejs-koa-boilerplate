@@ -40,6 +40,24 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
+    '/auth/login': {
+      post: {
+        tags: ['auth'],
+        summary: 'Login',
+        requestBody: {
+          content: availableRequestBodyContent({
+            schema: {
+              $ref: '#/components/schemas/LoginRequestModel',
+            },
+          }),
+        },
+        responses: {
+          200: {
+            $ref: '#/components/responses/ApiResponse',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas,
