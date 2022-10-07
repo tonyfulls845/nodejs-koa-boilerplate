@@ -1,12 +1,11 @@
 import Router from '@koa/router';
-import * as Koa from 'koa';
+import { DefaultState } from 'koa';
 
-import { KoaContext } from '../../interfaces';
+import { AppContext } from '../../interfaces';
 import { CreatePostRequestModel } from '../schemas.interfaces';
 
-export const create: Router.Middleware<Koa.DefaultState, KoaContext<CreatePostRequestModel, CreatePostRequestModel>> = (
+export const create: Router.Middleware<DefaultState, AppContext<CreatePostRequestModel, CreatePostRequestModel>> = (
   ctx,
-  next,
 ) => {
-  ctx.body = ctx.request.body;
+  ctx.body = ctx.state.user;
 };

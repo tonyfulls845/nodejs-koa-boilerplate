@@ -58,6 +58,29 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
+    '/post': {
+      post: {
+        tags: ['post'],
+        summary: 'Add new post',
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+        requestBody: {
+          content: availableRequestBodyContent({
+            schema: {
+              $ref: '#/components/schemas/CreatePostRequestModel',
+            },
+          }),
+        },
+        responses: {
+          200: {
+            $ref: '#/components/responses/ApiResponse',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas,
@@ -83,6 +106,12 @@ export const oasV3: OpenAPIV3.Document = {
             },
           },
         },
+      },
+    },
+    securitySchemes: {
+      BearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
       },
     },
   },

@@ -7,6 +7,6 @@ import { createPostRequestSchema } from './schemas';
 
 export const postRouter = new Router();
 
-postRouter.post('/register', validateMiddleware(createPostRequestSchema), controller.create);
+postRouter.post('/', validateMiddleware(createPostRequestSchema), controller.create);
 
 export const postRoutes = postRouter.routes();
