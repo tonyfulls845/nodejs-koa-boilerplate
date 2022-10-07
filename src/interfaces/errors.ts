@@ -56,7 +56,3 @@ export class ValidationError extends HttpError {
     this.errors = errors;
   }
 }
-
-export type AnyHttpError = HttpError | AuthError | ValidationError;
-
-export type AnyError = AnyHttpError | Error;

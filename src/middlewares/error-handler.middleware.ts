@@ -7,6 +7,7 @@ import { ValidateErrorDto } from '../utils/validate';
 
 export type ErrorDto = {
   message: string;
+  error?: unknown;
 };
 
 export type ValidationErrorDto = {
@@ -36,20 +37,24 @@ export const errorHandlerMiddleware: Middleware<DefaultState, AppContext<ErrorsR
     } else if (error instanceof AuthError) {
       ctx.status = error.statusCode;
       ctx.message = error.status;
+      ctx.body = {
+        errors: [{ message: error.message }],
+      };
     } else if (error instanceof HttpError) {
       ctx.status = error.statusCode;
       ctx.message = error.status;
       ctx.body = error.body;
     } else if (error instanceof Error) {
-      ctx.status = 509;
+      ctx.status = 500;
+      ctx.message = 'Internal server error';
       ctx.body = {
-        errors: [error],
+        errors: [{ message: error.message }],
       };
     } else {
       ctx.status = 500;
-      ctx.message = 'Unknown error';
+      ctx.message = 'Internal server error';
       ctx.body = {
-        errors: [error],
+        errors: [{ message: 'Unknown error', error }],
       };
     }
   }
