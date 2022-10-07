@@ -7,4 +7,4 @@ export const loginRequestSchema = Joi.object()
       .regex(/^[a-zA-Z0-9]{3,30}$/)
       .required(),
   })
-  .meta({ className: 'LoginRequestModel' });
+  .meta({ className: 'LoginRequestDto' });

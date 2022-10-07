@@ -47,7 +47,7 @@ export const oasV3: OpenAPIV3.Document = {
         requestBody: {
           content: availableRequestBodyContent({
             schema: {
-              $ref: '#/components/schemas/LoginRequestModel',
+              $ref: '#/components/schemas/LoginRequestDto',
             },
           }),
         },
