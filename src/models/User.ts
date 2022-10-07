@@ -21,13 +21,13 @@ const SALT_WORK_FACTOR = 10;
 
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  const generatedSalt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-  this.password = await bcrypt.hash(this.password, generatedSalt);
+  const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
+  this.password = await bcrypt.hash(this.password, salt);
 
   return next();
 });
 
-UserSchema.methods.comparePassword = function (candidatePassword: string) {
+UserSchema.methods.comparePassword = async function (candidatePassword: string) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 

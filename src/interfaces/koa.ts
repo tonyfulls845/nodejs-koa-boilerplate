@@ -1,10 +1,10 @@
-import { Context, Request } from 'koa';
+import { DefaultContext, DefaultState, Request } from 'koa';
 
-export interface KoaRequest<RequestBody = any> extends Omit<Request, 'body'> {
+export interface AppRequest<RequestBody = any> extends Omit<Request, 'body'> {
   body?: RequestBody;
 }
 
-export interface KoaContext<RequestBody = any, ResponseBody = any> extends Omit<Context, 'body'> {
-  request: KoaRequest<RequestBody>;
+export interface AppContext<RequestBody = any, ResponseBody = any> extends Omit<DefaultContext, 'body'> {
+  request: AppRequest<RequestBody>;
   body: ResponseBody;
 }
