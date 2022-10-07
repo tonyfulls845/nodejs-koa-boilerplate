@@ -18,7 +18,7 @@ export const login = async ({ email, password }: LoginRequestDto) => {
   const user = await User.findOne().where('email', email).select('+password').exec();
 
   if (!user) {
-    throw new AuthError();
+    throw new AuthError('No user');
   }
 
   const isPasswordMatched = await user.comparePassword(password);
@@ -42,5 +42,5 @@ export const login = async ({ email, password }: LoginRequestDto) => {
     };
   }
 
-  throw new AuthError();
+  throw new AuthError('Wrong password');
 };

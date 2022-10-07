@@ -34,12 +34,8 @@ export class HttpError extends Error {
   }
 }
 
-interface AuthErrorOptions {
-  message?: string;
-}
-
 export class AuthError extends HttpError {
-  constructor({ message = 'Authentication error' } = {} as AuthErrorOptions) {
+  constructor(message = 'Authentication error') {
     super({ message, statusCode: 401 });
   }
 }
