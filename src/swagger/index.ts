@@ -22,7 +22,7 @@ export const oasV3: OpenAPIV3.Document = {
   },
   servers: [{ url: `http://${HOST}:${PORT}/api` }],
   paths: {
-    '/auth/register': {
+    '/register': {
       post: {
         tags: ['auth'],
         summary: 'Register new user',
@@ -40,7 +40,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/auth/login': {
+    '/login': {
       post: {
         tags: ['auth'],
         summary: 'Login',

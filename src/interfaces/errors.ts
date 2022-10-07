@@ -40,6 +40,12 @@ export class AuthError extends HttpError {
   }
 }
 
+export class NotFoundError extends HttpError {
+  constructor(message = 'Not found error') {
+    super({ message, statusCode: 404 });
+  }
+}
+
 interface ValidationErrorOptions {
   errors: ValidateErrorDto[];
 }
