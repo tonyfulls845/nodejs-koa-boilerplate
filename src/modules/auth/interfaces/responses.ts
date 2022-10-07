@@ -1,8 +1,8 @@
-import { UserData } from '../../../models/User';
+import { UserDto } from '../../../models/User';
 
-export type RegisterResponseModel = UserData;
+export type RegisterResponseDto = UserDto;
 
-export type LoginResponseModel = {
+export type LoginResponseDto = {
   token: string;
-  user: UserData;
+  user: UserDto;
 };

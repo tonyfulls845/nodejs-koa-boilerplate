@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 import { JWT_EXPIRATION, JWT_SECRET } from '../../config';
-import { User, UserData } from '../../models/User';
+import { AuthError } from '../../interfaces/errors';
+import { User, UserDto } from '../../models/User';
 import { LoginRequestModel, RegisterRequestModel } from '../schemas.interfaces';
 
 export const register = async (data: RegisterRequestModel) => {
-  const user = new User<UserData>(data);
+  const user = new User<UserDto>(data);
   await user.save();
   const userData = user.toObject();
   delete userData.password;
@@ -17,7 +18,7 @@ export const login = async ({ email, password }: LoginRequestModel) => {
   const user = await User.findOne().where('email', email).select('+password').exec();
 
   if (!user) {
-    return null;
+    throw new AuthError();
   }
 
   const isPasswordMatched = await user.comparePassword(password);
@@ -40,5 +41,6 @@ export const login = async ({ email, password }: LoginRequestModel) => {
       token,
     };
   }
-  return null;
+
+  throw new AuthError();
 };

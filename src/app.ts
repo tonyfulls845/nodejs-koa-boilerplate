@@ -6,6 +6,7 @@ import mount from 'koa-mount';
 import mongoose from 'mongoose';
 
 import { HOST, JWT_SECRET, MONGO_URI, PORT } from './config';
+import { errorHandlerMiddleware } from './middlewares';
 import { authRoutes } from './modules/auth';
 import { postRoutes } from './modules/post';
 import { oasV3 } from './swagger';
@@ -14,6 +15,7 @@ const app = new Koa();
 
 mongoose.connect(MONGO_URI);
 
+app.use(errorHandlerMiddleware);
 app.use(bodyparser());
 app.use(
   koaSwagger({

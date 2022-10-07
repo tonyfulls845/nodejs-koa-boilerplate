@@ -1,13 +1,13 @@
 import bcrypt from 'bcrypt';
 import { Model, Schema, model } from 'mongoose';
 
-export interface UserData {
+export interface UserDto {
   firstName: string;
   lastName: string;
   password: string;
 }
 
-export interface UserDocument extends UserData, Document {
+export interface UserDocument extends UserDto, Document {
   comparePassword: (password: string) => Promise<boolean>;
 }
 

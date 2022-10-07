@@ -70,7 +70,7 @@ export const oasV3: OpenAPIV3.Document = {
         requestBody: {
           content: availableRequestBodyContent({
             schema: {
-              $ref: '#/components/schemas/CreatePostRequestModel',
+              $ref: '#/components/schemas/CreatePostRequestDto',
             },
           }),
         },

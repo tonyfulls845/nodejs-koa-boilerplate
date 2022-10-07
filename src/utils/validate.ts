@@ -3,7 +3,7 @@ import { isFunction } from 'lodash';
 
 import { SYMBOLS } from '../constants';
 
-export type Validator = (data: any, options?: ValidationOptions) => Promise<ValidationResult>;
+export type Validator = (data: Record<string, unknown>, options?: ValidationOptions) => Promise<ValidationResult>;
 export type Validators = Joi.Schema | Validator[] | Validator;
 
 const joiOptions = {
@@ -30,7 +30,17 @@ const getValidators = (validators = [] as Validators): Validator[] => {
   return validators;
 };
 
-export const validateRules = (payload, validators = [] as Validators) => {
+export interface ValidateErrorDto {
+  field: string;
+  message: string;
+}
+
+export interface ValidateResultDto {
+  errors: ValidateErrorDto[];
+  value: Record<string, unknown>;
+}
+
+export const validateRules = (payload, validators = [] as Validators): Promise<ValidateResultDto> => {
   const persistentData = payload[SYMBOLS.PERSISTENT];
   return getValidators(validators).reduce(
     async (result, validator) => {

@@ -1,6 +1,7 @@
 import { Middleware } from 'koa';
 
 import { SYMBOLS } from '../constants';
+import { ValidationError } from '../interfaces/errors';
 import { Validators, validateRules } from '../utils/validate';
 
 const defaultOptions = {
@@ -11,7 +12,7 @@ const defaultOptions = {
 export const validateMiddleware =
   (validators: Validators, options = defaultOptions): Middleware =>
   async (ctx, next) => {
-    const { throwOnInvalid, statusCode } = {
+    const { throwOnInvalid } = {
       ...defaultOptions,
       ...options,
     };
@@ -24,13 +25,9 @@ export const validateMiddleware =
     };
 
     const result = await validateRules(payload, validators);
-    if (throwOnInvalid && result.errors.length) {
-      ctx.status = statusCode || 400;
-      ctx.body = {
-        errors: result.errors,
-      };
 
-      return;
+    if (throwOnInvalid && result.errors.length) {
+      throw new ValidationError(result);
     }
 
     ctx.validatedRequest = result;
