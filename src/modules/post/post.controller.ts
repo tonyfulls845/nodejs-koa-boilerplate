@@ -1,11 +1,13 @@
 import Router from '@koa/router';
-import { DefaultState } from 'koa';
 
-import { AppContext } from '../../interfaces';
+import { AppContext, ProtectedAppState } from '../../interfaces';
+import { AppJWTPayload } from '../../interfaces/auth';
 import { CreatePostRequestDto } from '../schemas.interfaces';
 
-export const create: Router.Middleware<DefaultState, AppContext<CreatePostRequestDto, CreatePostRequestDto>> = (
-  ctx,
-) => {
-  ctx.body = ctx.state.user;
+export const create: Router.Middleware<ProtectedAppState, AppContext<AppJWTPayload, CreatePostRequestDto>> = (ctx) => {
+  const data = ctx.state.user.data.toJSON();
+
+  ctx.body = {
+    data: ctx.state.user.data.toJSON(),
+  };
 };
