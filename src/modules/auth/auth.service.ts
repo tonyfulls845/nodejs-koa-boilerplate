@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import { JWT_EXPIRATION, JWT_SECRET } from '../../config';
 import { AppJWTPayload } from '../../interfaces/auth';
 import { AuthError } from '../../interfaces/errors';
-import { User, UserDto } from '../../models/User';
-import { LoginRequestDto, RegisterRequestModel } from '../schemas.interfaces';
+import { LoginRequestDto, RegisterRequestModel, UserDto } from '../../jsonSchemas/interfaces';
+import { User } from '../../models';
 
 export const register = async (data: RegisterRequestModel) => {
   const user = new User<UserDto>(data);

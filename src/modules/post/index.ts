@@ -1,7 +1,7 @@
 import { validateMiddleware } from '../../middlewares';
 import { protectedRouter } from '../../router';
 
+import { createPostRequestJoiSchema } from './joiSchemas';
 import * as controller from './post.controller';
-import { createPostRequestSchema } from './schemas';
 
-protectedRouter.post('/post', validateMiddleware(createPostRequestSchema), controller.create);
+protectedRouter.post('/post', validateMiddleware(createPostRequestJoiSchema), controller.create);

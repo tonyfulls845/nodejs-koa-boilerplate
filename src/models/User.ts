@@ -2,10 +2,7 @@ import bcrypt from 'bcrypt';
 import { Document, Model, Schema, model } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
-export interface UserDto {
-  firstName: string;
-  lastName: string;
-}
+import { UserDto } from '../jsonSchemas/interfaces';
 
 export interface UserHiddenDto extends UserDto {
   password: string;

@@ -1,42 +1,14 @@
-import bcrypt from 'bcrypt';
 import { Document, Model, Schema, model } from 'mongoose';
-import mongooseHidden from 'mongoose-hidden';
 
-export interface UserDto {
-  firstName: string;
-  lastName: string;
-}
+import { PostDto } from '../jsonSchemas/interfaces';
 
-export interface UserHiddenDto extends UserDto {
-  password: string;
-}
+export interface PostDocument extends PostDto, Document<any, any, PostDto> {}
 
-export interface UserDocument extends UserHiddenDto, Document<any, any, UserHiddenDto> {
-  comparePassword: (password: string) => Promise<boolean>;
-}
+export type PostModel = Model<PostDocument>;
 
-export type UserModel = Model<UserDocument>;
-
-export const UserSchema = new Schema<UserDocument>({
-  firstName: { type: String, required: true, maxlength: 256 },
-  lastName: { type: String, required: true, maxlength: 256 },
-  password: { type: String, hide: true },
+export const PostSchema = new Schema<PostDocument>({
+  message: { type: String, required: true, maxlength: 256 },
+  user: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
-UserSchema.plugin(mongooseHidden());
-
-const SALT_WORK_FACTOR = 10;
-
-UserSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
-  const salt = await bcrypt.genSalt(SALT_WORK_FACTOR);
-  this.password = await bcrypt.hash(this.password, salt);
-
-  return next();
-});
-
-UserSchema.methods.comparePassword = async function (candidatePassword: string) {
-  return bcrypt.compare(candidatePassword, this.password);
-};
-
-export const User = model<UserDocument, UserModel>('User', UserSchema);
+export const Post = model<PostDocument, PostModel>('Post', PostSchema);

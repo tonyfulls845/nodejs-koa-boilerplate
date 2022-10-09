@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 import { HOST, PORT } from '../config';
-import { schemas } from '../modules/schemas';
+import { jsonSchemas } from '../jsonSchemas';
 
 const availableRequestBodyContent = (content: OpenAPIV3.MediaTypeObject) =>
   ['application/x-www-form-urlencoded', 'application/json'].reduce<OpenAPIV3.RequestBodyObject['content']>(
@@ -17,7 +17,7 @@ export const oasV3: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {
     title: 'NodeJS Training API',
-    description: 'Swagger with auto generate models from Joi schemas',
+    description: 'Swagger with auto generate models from Joi joiSchemas',
     version: 'v1',
   },
   servers: [{ url: `http://${HOST}:${PORT}/api` }],
@@ -83,7 +83,7 @@ export const oasV3: OpenAPIV3.Document = {
     },
   },
   components: {
-    schemas,
+    schemas: jsonSchemas,
     responses: {
       ApiResponse: {
         description: 'Normal response (either success or error)',

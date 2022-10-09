@@ -1,6 +1,6 @@
 import { LeanDocument } from 'mongoose';
 
-import { UserDto } from '../../../models/User';
+import { UserDto } from '../../../models';
 
 export type RegisterResponseDto = LeanDocument<UserDto>;
 

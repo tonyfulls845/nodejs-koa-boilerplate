@@ -2,7 +2,7 @@ import { validateMiddleware } from '../../middlewares';
 import { router } from '../../router';
 
 import * as controller from './auth.controller';
-import { loginRequestSchema, registerRequestSchema } from './schemas';
+import { loginRequestJoiSchema, registerRequestJoiSchema } from './joiSchemas';
 
-router.post('/register', validateMiddleware(registerRequestSchema), controller.register);
-router.post('/login', validateMiddleware(loginRequestSchema), controller.login);
+router.post('/register', validateMiddleware(registerRequestJoiSchema), controller.register);
+router.post('/login', validateMiddleware(loginRequestJoiSchema), controller.login);

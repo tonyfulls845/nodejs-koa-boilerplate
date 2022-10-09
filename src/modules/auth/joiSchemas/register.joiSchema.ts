@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const registerRequestSchema = Joi.object()
+export const registerRequestJoiSchema = Joi.object()
   .keys({
     firstName: Joi.string().required(),
     lastName: Joi.string().required(),

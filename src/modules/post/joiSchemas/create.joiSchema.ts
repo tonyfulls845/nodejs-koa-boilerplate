@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-export const createPostRequestSchema = Joi.object()
+export const createPostRequestJoiSchema = Joi.object()
   .keys({
     message: Joi.string().required(),
   })

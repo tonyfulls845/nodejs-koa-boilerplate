@@ -1,6 +1,6 @@
 import { DefaultContext, DefaultState, Request } from 'koa';
 
-import { UserDocument } from '../models/User';
+import { UserDocument } from '../models';
 
 export interface AppRequest<RequestBody = any> extends Omit<Request, 'body'> {
   body?: RequestBody;
