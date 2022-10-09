@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
-export const loginResponseJsonSchema: OpenAPIV3.SchemaObject = {
-  title: 'LoginResponse',
+export const loginResponseDtoJsonSchema: OpenAPIV3.SchemaObject = {
+  title: 'LoginResponseDto',
   type: 'object',
   properties: {
     token: {

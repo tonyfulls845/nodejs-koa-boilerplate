@@ -13,6 +13,19 @@ const availableRequestBodyContent = (content: OpenAPIV3.MediaTypeObject) =>
     {},
   );
 
+const response = (responseName: string, schemaName = responseName) => ({
+  [responseName]: {
+    description: 'Normal response (either success or error)',
+    content: {
+      'application/json': {
+        schema: {
+          $ref: `#/components/schemas/${schemaName}`,
+        },
+      },
+    },
+  },
+});
+
 export const oasV3: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {
@@ -29,13 +42,13 @@ export const oasV3: OpenAPIV3.Document = {
         requestBody: {
           content: availableRequestBodyContent({
             schema: {
-              $ref: '#/components/schemas/RegisterRequestModel',
+              $ref: '#/components/schemas/RegisterRequestDto',
             },
           }),
         },
         responses: {
           200: {
-            $ref: '#/components/responses/ApiResponse',
+            $ref: '#/components/responses/RegisterResponseDto',
           },
         },
       },
@@ -53,7 +66,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
         responses: {
           200: {
-            $ref: '#/components/responses/ApiResponse',
+            $ref: '#/components/responses/LoginResponseDto',
           },
         },
       },
@@ -76,7 +89,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
         responses: {
           200: {
-            $ref: '#/components/responses/ApiResponse',
+            $ref: '#/components/responses/CreatePostResponseDto',
           },
         },
       },
@@ -85,28 +98,9 @@ export const oasV3: OpenAPIV3.Document = {
   components: {
     schemas: jsonSchemas,
     responses: {
-      ApiResponse: {
-        description: 'Normal response (either success or error)',
-        content: {
-          'application/json': {
-            schema: {
-              type: 'object',
-              properties: {
-                code: {
-                  type: 'integer',
-                  format: 'int32',
-                },
-                type: {
-                  type: 'string',
-                },
-                message: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        },
-      },
+      ...response('RegisterResponseDto', 'UserDto'),
+      ...response('LoginResponseDto'),
+      ...response('CreatePostResponseDto', 'PostDto'),
     },
     securitySchemes: {
       BearerAuth: {

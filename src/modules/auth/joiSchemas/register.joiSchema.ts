@@ -9,4 +9,4 @@ export const registerRequestJoiSchema = Joi.object()
       .required(),
     email: Joi.string().email().required(),
   })
-  .meta({ className: 'RegisterRequestModel' });
+  .meta({ className: 'RegisterRequestDto' });

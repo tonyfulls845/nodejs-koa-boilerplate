@@ -3,10 +3,10 @@ import jwt from 'jsonwebtoken';
 import { JWT_EXPIRATION, JWT_SECRET } from '../../config';
 import { AppJWTPayload } from '../../interfaces/auth';
 import { AuthError } from '../../interfaces/errors';
-import { LoginRequestDto, RegisterRequestModel, UserDto } from '../../jsonSchemas/interfaces';
+import { LoginRequestDto, RegisterRequestDto, UserDto } from '../../jsonSchemas/interfaces';
 import { User } from '../../models';
 
-export const register = async (data: RegisterRequestModel) => {
+export const register = async (data: RegisterRequestDto) => {
   const user = new User<UserDto>(data);
   await user.save();
 
