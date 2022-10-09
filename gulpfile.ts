@@ -24,7 +24,7 @@ gulp.task('schema', (done) => {
 
     compile(schema, `ALL`)
       .then((ts) => {
-        const cleanedTs = ts.replace(/(^|\r|\n|\r\n)export\stype\sALL.+(^|\r|\n|\r\n)/gi, '');
+        const cleanedTs = ts.replace(/(^|\r|\n|\r\n)export\stype\sALL[^;]+;(\r|\n|\r\n|$)/gi, '');
         fs.writeFileSync(`${jsonSchemasPath}/interfaces.ts`, cleanedTs);
         console.log('Write interfaces to file');
       })

@@ -35,9 +35,9 @@ export interface ValidateErrorDto {
   message: string;
 }
 
-export interface ValidateResultDto {
+export interface ValidateResultDto<T = any> {
   errors: ValidateErrorDto[];
-  value: Record<string, unknown>;
+  value: T;
 }
 
 export const validateRules = (payload, validators = [] as Validators): Promise<ValidateResultDto> => {
