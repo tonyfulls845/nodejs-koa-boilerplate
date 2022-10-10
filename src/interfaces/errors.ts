@@ -46,6 +46,12 @@ export class NotFoundError extends HttpError {
   }
 }
 
+export class ForbiddenError extends HttpError {
+  constructor(message = 'Forbidden') {
+    super({ message, statusCode: 403 });
+  }
+}
+
 interface ValidationErrorOptions {
   errors: ValidateErrorDto[];
 }

@@ -13,9 +13,9 @@ const availableRequestBodyContent = (content: OpenAPIV3.MediaTypeObject) =>
     {},
   );
 
-const response = (responseName: string, schemaName = responseName) => ({
+const jsonResponseWithSchema = (responseName: string, schemaName = responseName) => ({
   [responseName]: {
-    description: 'Normal response (either success or error)',
+    description: 'Normal response',
     content: {
       'application/json': {
         schema: {
@@ -30,7 +30,7 @@ export const oasV3: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {
     title: 'NodeJS Training API',
-    description: 'Swagger with auto generate models from Joi joiSchemas',
+    description: 'Swagger with auto generate models from Joi joiValidators',
     version: 'v1',
   },
   servers: [{ url: `http://${HOST}:${PORT}/api` }],
@@ -94,13 +94,46 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
+    '/post/{id}': {
+      delete: {
+        tags: ['post'],
+        summary: 'Delete post with given id',
+        parameters: [
+          {
+            $ref: '#/components/parameters/Id',
+          },
+        ],
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+        responses: {
+          200: {
+            $ref: '#/components/responses/SuccessResponse',
+          },
+        },
+      },
+    },
   },
   components: {
     schemas: jsonSchemas,
+    parameters: {
+      Id: {
+        name: 'id',
+        in: 'path',
+        schema: {
+          $ref: '#/components/schemas/Id',
+        },
+      },
+    },
     responses: {
-      ...response('RegisterResponseDto', 'UserDto'),
-      ...response('LoginResponseDto'),
-      ...response('CreatePostResponseDto', 'PostDto'),
+      ...jsonResponseWithSchema('RegisterResponseDto', 'UserDto'),
+      ...jsonResponseWithSchema('LoginResponseDto'),
+      ...jsonResponseWithSchema('CreatePostResponseDto', 'PostDto'),
+      SuccessResponse: {
+        description: 'Success Response',
+      },
     },
     securitySchemes: {
       BearerAuth: {

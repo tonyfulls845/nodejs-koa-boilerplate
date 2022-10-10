@@ -4,6 +4,7 @@ import { compile } from 'json-schema-to-typescript';
 
 const modulesJoiSchemasRoutes = `./src/modules/**/joiSchemas/*joiSchema.ts`;
 const modelsJsonSchemasRoutes = `./src/jsonSchemas/models/*jsonSchema.ts`;
+const joiValidatorsRoutes = `./src/joiValidators/*.joiValidator.ts`;
 const jsonSchemasPath = './src/jsonSchemas';
 
 gulp.task('schema', (done) => {
@@ -34,7 +35,7 @@ gulp.task('schema', (done) => {
 
 // Watch Task
 gulp.task('watch-schema', function () {
-  gulp.watch([modulesJoiSchemasRoutes, modelsJsonSchemasRoutes], gulp.series('schema'));
+  gulp.watch([modulesJoiSchemasRoutes, modelsJsonSchemasRoutes, joiValidatorsRoutes], gulp.series('schema'));
 });
 
 // Default Task
