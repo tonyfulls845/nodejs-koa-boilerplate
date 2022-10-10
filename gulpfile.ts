@@ -19,14 +19,13 @@ gulp.task('schema', (done) => {
 
   import(jsonSchemasPath).then(({ jsonSchemas }) => {
     const schema = {
-      allOf: Object.keys(jsonSchemas).map((model) => ({ $ref: `#/components/schemas/${model}` })),
+      anyOf: Object.keys(jsonSchemas).map((model) => ({ $ref: `#/components/schemas/${model}` })),
       components: { schemas: jsonSchemas },
     };
 
-    compile(schema, `ALL`)
+    compile(schema, `AnyDto`)
       .then((ts) => {
-        const cleanedTs = ts.replace(/(^|\r|\n|\r\n)export\stype\sALL[^;]+;(\r|\n|\r\n|$)/gi, '');
-        fs.writeFileSync(`${jsonSchemasPath}/interfaces.ts`, cleanedTs);
+        fs.writeFileSync(`${jsonSchemasPath}/interfaces.ts`, ts);
         console.log('Write interfaces to file');
       })
       .then(() => done());

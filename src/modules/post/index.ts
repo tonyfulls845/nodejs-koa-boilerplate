@@ -8,7 +8,7 @@ import * as controller from './post.controller';
 
 protectedRouter
   .param('post', async (id, ctx, next) => {
-    ctx.post = await Post.findById(id);
+    ctx.post = await Post.findById(id).populate('user');
     if (!ctx.post) {
       throw new NotFoundError();
     }
