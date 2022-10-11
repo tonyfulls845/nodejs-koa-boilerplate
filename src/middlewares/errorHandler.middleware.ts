@@ -2,7 +2,7 @@ import { Middleware } from '@koa/router';
 import { DefaultState } from 'koa';
 
 import { AppContext } from '../interfaces';
-import { AuthError, Error, ForbiddenError, HttpError, NotFoundError, ValidationError } from '../interfaces/errors';
+import { AuthError, BaseError, ForbiddenError, HttpError, NotFoundError, ValidationError } from '../interfaces/errors';
 import { ValidateErrorDto } from '../utils/validate';
 
 export type ErrorDto = {
@@ -62,11 +62,17 @@ export const errorHandlerMiddleware: Middleware<DefaultState, AppContext<ErrorsR
       ctx.status = error.statusCode;
       ctx.message = error.status;
       ctx.body = error.body;
-    } else if (error instanceof Error) {
+    } else if (error instanceof BaseError) {
       ctx.status = 500;
       ctx.message = 'Internal server error';
       ctx.body = {
         errors: [{ message: error.message }],
+      };
+    } else if (error instanceof Error) {
+      ctx.status = 500;
+      ctx.message = 'Internal server error';
+      ctx.body = {
+        errors: [{ message: 'JS Error', error: error.stack }],
       };
     } else {
       ctx.status = 500;

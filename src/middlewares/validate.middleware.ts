@@ -33,5 +33,7 @@ export const validateMiddleware =
 
     ctx.validatedRequest = result;
 
-    await next();
+    if (next) {
+      await next();
+    }
   };

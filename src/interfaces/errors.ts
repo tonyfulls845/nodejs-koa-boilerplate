@@ -6,7 +6,7 @@ interface ErrorOptions {
   message: string;
 }
 
-export class Error {
+export class BaseError {
   public message: string;
 
   constructor({ message }: ErrorOptions) {
@@ -20,7 +20,7 @@ interface HttpErrorOptions extends ErrorOptions {
   body?: ErrorsResponseDto;
 }
 
-export class HttpError extends Error {
+export class HttpError extends BaseError {
   public status: string;
   public statusCode: number;
   public body?: ErrorsResponseDto;
