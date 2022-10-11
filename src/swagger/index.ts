@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 import { HOST, PORT } from '../config';
-import { jsonSchemas } from '../jsonSchemas';
+import { swaggerSchemas } from '../jsonSchemas';
 
 const availableRequestBodyContent = (content: OpenAPIV3.MediaTypeObject) =>
   ['application/x-www-form-urlencoded', 'application/json'].reduce<OpenAPIV3.RequestBodyObject['content']>(
@@ -117,13 +117,13 @@ export const oasV3: OpenAPIV3.Document = {
     },
   },
   components: {
-    schemas: jsonSchemas,
+    schemas: swaggerSchemas,
     parameters: {
       Id: {
         name: 'id',
         in: 'path',
         schema: {
-          $ref: '#/components/schemas/Id',
+          $ref: '#/components/schemas/IdValidator',
         },
       },
     },
