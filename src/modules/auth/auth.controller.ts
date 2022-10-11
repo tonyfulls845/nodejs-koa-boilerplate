@@ -7,9 +7,9 @@ import { LoginRequestDto, LoginResponseDto, RegisterRequestDto, UserDto } from '
 import * as authService from './auth.service';
 
 export const register: Router.Middleware<DefaultState, AppContext<UserDto, RegisterRequestDto>> = async (ctx) => {
-  ctx.body = await authService.register(ctx.validatedRequest.value);
+  ctx.body = await authService.register(ctx.validatedRequest.value.body);
 };
 
 export const login: Router.Middleware<DefaultState, AppContext<LoginResponseDto, LoginRequestDto>> = async (ctx) => {
-  ctx.body = await authService.login(ctx.validatedRequest.value);
+  ctx.body = await authService.login(ctx.validatedRequest.value.body);
 };

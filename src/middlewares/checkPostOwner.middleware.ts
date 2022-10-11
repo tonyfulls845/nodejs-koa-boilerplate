@@ -1,4 +1,4 @@
-import { Middleware } from 'koa';
+import { Middleware } from '@koa/router';
 
 import { PostAppContext, ProtectedAppState } from '../interfaces';
 import { ForbiddenError } from '../interfaces/errors';

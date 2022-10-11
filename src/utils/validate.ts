@@ -6,6 +6,11 @@ import { SYMBOLS } from '../constants';
 export type Validator = (data: Record<string, unknown>, options?: ValidationOptions) => Promise<ValidationResult>;
 export type Validators = Joi.Schema | Validator[] | Validator;
 
+export type ValidatorsMap = Partial<Record<ValidatorDestination, Validators>>;
+
+export const validatorsDestinations = ['body', 'query', 'params'] as const;
+export type ValidatorDestination = typeof validatorsDestinations[number];
+
 const joiOptions = {
   abortEarly: false,
   allowUnknown: true,
@@ -31,45 +36,54 @@ const getValidators = (validators = [] as Validators): Validator[] => {
 };
 
 export interface ValidateErrorDto {
+  where: string;
   field: string;
   message: string;
 }
 
 export interface ValidateResultDto<T = any> {
   errors: ValidateErrorDto[];
-  value: T;
+  value: {
+    body: T;
+    params: any;
+    query: any;
+  };
 }
 
-export const validateRules = (payload, validators = [] as Validators): Promise<ValidateResultDto> => {
+export const validateRules = (payload, validatorsMap = {} as ValidatorsMap): Promise<ValidateResultDto> => {
   const persistentData = payload[SYMBOLS.PERSISTENT];
-  return getValidators(validators).reduce(
-    async (result, validator) => {
-      const data = await result;
 
-      if (data.errors.length) {
-        return data;
-      }
+  return Object.entries(validatorsMap).reduce<Promise<ValidateResultDto>>(
+    async (result, [where, validators]) => {
+      return getValidators(validators).reduce<Promise<ValidateResultDto>>(async (result, validator) => {
+        const data = await result;
 
-      try {
-        await validator(data.value, persistentData);
-        return {
-          errors: data.errors,
-          value: data.value,
-        };
-      } catch (error) {
-        return {
-          errors: [
-            ...data.errors,
-            ...error.details.map((detail) => {
-              return {
-                field: detail.context.key,
-                message: detail.message,
-              };
-            }),
-          ],
-          value: data.value,
-        };
-      }
+        if (data.errors.length) {
+          return data;
+        }
+
+        try {
+          await validator(data.value[where], persistentData);
+          return {
+            errors: data.errors,
+            value: data.value,
+          };
+        } catch (error) {
+          return {
+            errors: [
+              ...data.errors,
+              ...error.details.map((detail) => {
+                return {
+                  where,
+                  field: detail.context.key,
+                  message: detail.message,
+                };
+              }),
+            ],
+            value: data.value,
+          };
+        }
+      }, result);
     },
     Promise.resolve({
       errors: [],

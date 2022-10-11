@@ -10,7 +10,7 @@ export const create: Router.Middleware<
   ProtectedAppState,
   AppContext<NestedModelWithId<PostDto>, CreatePostRequestDto>
 > = async (ctx) => {
-  ctx.body = await postService.create(ctx.validatedRequest.value, ctx.state.user.data);
+  ctx.body = await postService.create(ctx.validatedRequest.value.body, ctx.state.user.data);
 };
 
 export const remove: Router.Middleware<ProtectedAppState, PostAppContext<PostDto, CreatePostRequestDto>> = async (

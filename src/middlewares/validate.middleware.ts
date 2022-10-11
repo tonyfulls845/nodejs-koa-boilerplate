@@ -1,8 +1,9 @@
-import { Middleware } from 'koa';
+import { DefaultContext } from 'koa';
+import { ComposedMiddleware } from 'koa-compose';
 
 import { SYMBOLS } from '../constants';
 import { ValidationError } from '../interfaces/errors';
-import { Validators, validateRules } from '../utils/validate';
+import { ValidatorDestination, ValidatorsMap, validateRules } from '../utils/validate';
 
 const defaultOptions = {
   throwOnInvalid: true,
@@ -10,21 +11,21 @@ const defaultOptions = {
 };
 
 export const validateMiddleware =
-  (validators: Validators, options = defaultOptions): Middleware =>
+  (validatorsMap: ValidatorsMap, options = defaultOptions): ComposedMiddleware<DefaultContext> =>
   async (ctx, next) => {
     const { throwOnInvalid } = {
       ...defaultOptions,
       ...options,
     };
 
-    const payload = {
-      ...ctx.request.body,
-      ...ctx.query,
-      ...ctx.params,
+    const payload: Record<ValidatorDestination, unknown> = {
+      body: ctx.request.body,
+      query: ctx.query,
+      params: ctx.params,
       [SYMBOLS.PERSISTENT]: ctx,
     };
 
-    const result = await validateRules(payload, validators);
+    const result = await validateRules(payload, validatorsMap);
 
     if (throwOnInvalid && result.errors.length) {
       throw new ValidationError(result);
