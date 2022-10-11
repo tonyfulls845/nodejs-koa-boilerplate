@@ -61,3 +61,26 @@ export const generateInterfaces = (src: string, dst: string, variablesMap: Recor
       });
     });
   });
+
+export const availableRequestBodyContent = (content: OpenAPIV3.MediaTypeObject) =>
+  ['application/x-www-form-urlencoded', 'application/json'].reduce<OpenAPIV3.RequestBodyObject['content']>(
+    (acc, mime) => {
+      acc[mime] = content;
+
+      return acc;
+    },
+    {},
+  );
+
+export const jsonResponseWithSchema = (responseName: string, schemaName = responseName) => ({
+  [responseName]: {
+    description: 'Normal response',
+    content: {
+      'application/json': {
+        schema: {
+          $ref: `#/components/schemas/${schemaName}`,
+        },
+      },
+    },
+  },
+});
