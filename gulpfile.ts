@@ -7,6 +7,24 @@ const modelsJsonSchemasRoutes = `./src/jsonSchemas/models/*jsonSchema.ts`;
 const joiValidatorsRoutes = `./src/joiValidators/*.joiValidator.ts`;
 const jsonSchemasPath = './src/jsonSchemas';
 
+
+const generateInterfaces = (src: string, dst: string, variable: string, interfaceName: string, done: any) => {
+
+  import(file).then(({ [variable]: jsonSchemas }) => {
+    const schema = {
+      anyOf: Object.keys(jsonSchemas).map((model) => ({ $ref: `#/components/schemas/${model}` })),
+      components: { schemas: jsonSchemas },
+    };
+
+    compile(schema, interfaceName)
+      .then((ts) => {
+        fs.writeFileSync(dst, ts);
+        console.log('Write interfaces to file');
+      })
+      .then(() => done());
+  });
+}
+
 gulp.task('schema', (done) => {
   Object.keys(require.cache)
     .filter((path) => {
@@ -17,19 +35,8 @@ gulp.task('schema', (done) => {
       delete require.cache[path];
     });
 
-  import(jsonSchemasPath).then(({ jsonSchemas }) => {
-    const schema = {
-      anyOf: Object.keys(jsonSchemas).map((model) => ({ $ref: `#/components/schemas/${model}` })),
-      components: { schemas: jsonSchemas },
-    };
+  generateInterfaces(jsonSchemasPath, )
 
-    compile(schema, `AnyDto`)
-      .then((ts) => {
-        fs.writeFileSync(`${jsonSchemasPath}/interfaces.ts`, ts);
-        console.log('Write interfaces to file');
-      })
-      .then(() => done());
-  });
 });
 
 // Watch Task

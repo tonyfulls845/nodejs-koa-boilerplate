@@ -15,7 +15,7 @@ const modulesJoiSchemas = {
   ...postJoiSchemas,
 };
 
-const validatorsJsonSchemas = Object.entries(joiValidators).reduce<Record<string, OpenAPIV3.SchemaObject>>(
+export const validatorsJsonSchemas = Object.entries(joiValidators).reduce<Record<string, OpenAPIV3.SchemaObject>>(
   (acc, [name, validator]) => {
     const { swagger } = j2s(validator);
 
@@ -26,7 +26,9 @@ const validatorsJsonSchemas = Object.entries(joiValidators).reduce<Record<string
   {},
 );
 
-const commonJsonSchemas = Object.values({ ...modelsJsonSchemas, ...responsesJsonSchemas }).reduce<
+const jsonSchemasToSwaggerSchemas = () =>
+
+export const commonJsonSchemas = Object.values({ ...modelsJsonSchemas, ...responsesJsonSchemas }).reduce<
   Record<string, OpenAPIV3.SchemaObject>
 >((acc, { title, ...schema }) => {
   acc[title] = schema;
@@ -34,7 +36,7 @@ const commonJsonSchemas = Object.values({ ...modelsJsonSchemas, ...responsesJson
   return acc;
 }, {});
 
-const modulesJsonSchemas = Object.entries(modulesJoiSchemas)
+export const modulesJsonSchemas = Object.entries(modulesJoiSchemas)
   .filter(([name]) => /^.+JoiSchema$/.test(name))
   .reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, [, schema]) => {
     const { components } = j2s(schema as AnySchema);
@@ -44,9 +46,3 @@ const modulesJsonSchemas = Object.entries(modulesJoiSchemas)
       ...components.schemas,
     };
   }, {});
-
-export const jsonSchemas = {
-  ...modulesJsonSchemas,
-  ...commonJsonSchemas,
-  ...validatorsJsonSchemas,
-};
