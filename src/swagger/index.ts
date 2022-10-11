@@ -8,7 +8,7 @@ export const oasV3: OpenAPIV3.Document = {
   openapi: '3.0.1',
   info: {
     title: 'NodeJS Training API',
-    description: 'Swagger with auto generate models from Joi joiValidators',
+    description: 'Swagger with auto generate models from Joi validators',
     version: 'v1',
   },
   servers: [{ url: `http://${HOST}:${PORT}/api` }],
