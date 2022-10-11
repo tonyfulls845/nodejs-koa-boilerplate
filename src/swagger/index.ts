@@ -72,13 +72,13 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/post/{id}': {
+    '/post/{post}': {
       delete: {
         tags: ['post'],
         summary: 'Delete post with given id',
         parameters: [
           {
-            $ref: '#/components/parameters/Id',
+            $ref: '#/components/parameters/Post',
           },
         ],
         security: [
@@ -97,8 +97,8 @@ export const oasV3: OpenAPIV3.Document = {
   components: {
     schemas: swaggerSchemas,
     parameters: {
-      Id: {
-        name: 'id',
+      Post: {
+        name: 'post',
         in: 'path',
         schema: {
           $ref: '#/components/schemas/IdValidator',
