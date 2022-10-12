@@ -6,24 +6,32 @@ import { OpenAPIV3 } from 'openapi-types';
 
 import { capitalize } from './string';
 
-export const jsonSchemasToSwaggerSchemas = (jsonSchemas: Record<string, OpenAPIV3.SchemaObject>) =>
-  Object.values(jsonSchemas).reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, { title, ...schema }) => {
-    acc[title] = schema;
+const isJsonSchema = (name: string, schema: unknown): schema is OpenAPIV3.SchemaObject => /^.+JsonSchema$/.test(name);
+const isJoiSchema = (name: string, schema: unknown): schema is OpenAPIV3.SchemaObject => /^.+JoiSchema$/.test(name);
+
+export const jsonSchemasToSwaggerSchemas = (jsonSchemas: Record<string, any>) =>
+  Object.entries(jsonSchemas).reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, entry) => {
+    if (isJsonSchema(...entry)) {
+      const [, { title, ...schema }] = entry;
+
+      acc[title] = schema;
+    }
 
     return acc;
   }, {});
 
-export const joiSchemasToSwaggerSchemas = (joiSchemas: Record<string, AnySchema>) =>
-  Object.entries(joiSchemas)
-    .filter(([name]) => /^.+JoiSchema$/.test(name))
-    .reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, [, schema]) => {
-      const { components } = j2s(schema as AnySchema);
+export const joiSchemasToSwaggerSchemas = (joiSchemas: Record<string, any>) =>
+  Object.entries(joiSchemas).reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, entry) => {
+    if (isJoiSchema(...entry)) {
+      const [, schema] = entry;
 
-      return {
-        ...acc,
-        ...components.schemas,
-      };
-    }, {});
+      const { components } = j2s(schema);
+
+      Object.assign(acc, components.schemas);
+    }
+
+    return acc;
+  }, {});
 
 export const joiValidatorsToSwaggerSchemas = (joiValidators: Record<string, AnySchema>) =>
   Object.entries(joiValidators).reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, [name, validator]) => {
@@ -47,7 +55,8 @@ export const generateInterfaces = (src: string, dst: string, variablesMap: Recor
     Promise.all(
       Object.entries(variablesMap).map(([variable, interfaceName]) =>
         compile(generateCompileSchema(file[variable], allSwaggerSchemas), interfaceName).then((ts) => {
-          const [match] = ts.match(new RegExp(`export type ${interfaceName}[^;]+;`, 'gi')) || [];
+          const [, match] =
+            ts.match(new RegExp(`(export\\stype\\s${interfaceName}[\\s\\S]+?;)\\s*(export|$)`, 'i')) || [];
 
           return match;
         }),
