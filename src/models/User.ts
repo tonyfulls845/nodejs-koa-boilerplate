@@ -3,6 +3,7 @@ import { Document, Model, Schema, model } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
 import { UserDto } from '../jsonSchemas/interfaces';
+import { Sex } from '../jsonSchemas/models';
 
 export interface UserHiddenDto extends UserDto {
   password: string;
@@ -18,6 +19,7 @@ export const UserSchema = new Schema<UserDocument>({
   firstName: { type: String, required: true, maxlength: 256 },
   lastName: { type: String, required: true, maxlength: 256 },
   password: { type: String, hide: true },
+  sex: { type: String, enum: Object.values(Sex) },
 });
 
 UserSchema.plugin(mongooseHidden());
