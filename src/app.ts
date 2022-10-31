@@ -30,6 +30,8 @@ app.use(protectedRouter.routes());
 
 app.listen(PORT, HOST);
 
+console.info(`Running app on ${HOST}:${PORT}`);
+
 process.once('SIGUSR2', function () {
   process.kill(process.pid, 'SIGUSR2');
 });
