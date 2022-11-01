@@ -1,8 +1,5 @@
-import { validateMiddleware } from '../../middlewares';
-import { router } from '../../router';
+import { protectedRouter } from '../../router';
 
-import * as controller from './auth.controller';
-import { loginRequestJoiSchema, registerRequestJoiSchema } from './joiSchemas';
+import * as controller from './user.controller';
 
-router.post('/register', validateMiddleware({ body: registerRequestJoiSchema }), controller.register);
-router.post('/login', validateMiddleware({ body: loginRequestJoiSchema }), controller.login);
+protectedRouter.get('/me', controller.me);

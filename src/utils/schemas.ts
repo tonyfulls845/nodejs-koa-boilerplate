@@ -33,14 +33,16 @@ export const joiSchemasToSwaggerSchemas = (joiSchemas: Record<string, any>) =>
     return acc;
   }, {});
 
-export const joiValidatorsToSwaggerSchemas = (joiValidators: Record<string, AnySchema>) =>
-  Object.entries(joiValidators).reduce<Record<string, OpenAPIV3.SchemaObject>>((acc, [name, validator]) => {
+export const joiValidatorsToSwaggerSchemas = <T extends Record<string, AnySchema>, K extends keyof T>(
+  joiValidators: T,
+): Record<K extends string ? Capitalize<K> : string, OpenAPIV3.SchemaObject> =>
+  Object.entries(joiValidators).reduce((acc, [name, validator]) => {
     const { swagger } = j2s(validator);
 
     acc[capitalize(name)] = swagger;
 
     return acc;
-  }, {});
+  }, {} as Record<K extends string ? Capitalize<K> : string, OpenAPIV3.SchemaObject>);
 
 export const generateCompileSchema = (
   groupSchemas: Record<string, OpenAPIV3.SchemaObject>,

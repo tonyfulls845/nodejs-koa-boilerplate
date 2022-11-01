@@ -49,6 +49,22 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
+    '/me': {
+      get: {
+        tags: ['auth'],
+        summary: 'Me',
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+        responses: {
+          200: {
+            $ref: '#/components/responses/MeResponseDto',
+          },
+        },
+      },
+    },
     '/post': {
       post: {
         tags: ['post'],
@@ -109,6 +125,8 @@ export const oasV3: OpenAPIV3.Document = {
       ...jsonResponseWithSchema('RegisterResponseDto', 'UserDto'),
       ...jsonResponseWithSchema('LoginResponseDto'),
       ...jsonResponseWithSchema('CreatePostResponseDto', 'PostDto'),
+      ...jsonResponseWithSchema('MeResponseDto', 'UserDto'),
+
       SuccessResponse: {
         description: 'Success Response',
       },

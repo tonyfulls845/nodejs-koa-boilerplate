@@ -7,6 +7,7 @@ import { HOST, MONGO_URI, PORT } from './config';
 import { convertKoaThrowMiddleware, errorHandlerMiddleware } from './middlewares';
 import './modules/auth';
 import './modules/post';
+import './modules/user';
 import { protectedRouter, router } from './router';
 import { oasV3 } from './swagger';
 
