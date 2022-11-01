@@ -11,7 +11,7 @@ import './modules/user';
 import { protectedRouter, router } from './router';
 import { oasV3 } from './swagger';
 
-const app = new Koa();
+export const app = new Koa();
 
 mongoose.connect(MONGO_URI);
 
