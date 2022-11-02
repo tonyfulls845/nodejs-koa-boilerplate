@@ -2,7 +2,7 @@ import { OpenAPIV3 } from 'openapi-types';
 
 import { HOST, PORT } from '../config';
 import { swaggerSchemas } from '../jsonSchemas';
-import { availableRequestBodyContent, jsonResponseWithSchema } from '../utils/schemas';
+import { availableRequestBodyContent, idParameterSchema, jsonResponseWithSchema } from '../utils/schemas';
 
 export const oasV3: OpenAPIV3.Document = {
   openapi: '3.0.1',
@@ -60,7 +60,27 @@ export const oasV3: OpenAPIV3.Document = {
         ],
         responses: {
           200: {
-            $ref: '#/components/responses/MeResponseDto',
+            $ref: '#/components/responses/UserResponseDto',
+          },
+        },
+      },
+    },
+    '/user/{user}': {
+      get: {
+        summary: 'Get user by id',
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+        parameters: [
+          {
+            $ref: '#/components/parameters/User',
+          },
+        ],
+        responses: {
+          200: {
+            $ref: '#/components/responses/UserResponseDto',
           },
         },
       },
@@ -113,19 +133,14 @@ export const oasV3: OpenAPIV3.Document = {
   components: {
     schemas: swaggerSchemas,
     parameters: {
-      Post: {
-        name: 'post',
-        in: 'path',
-        schema: {
-          $ref: '#/components/schemas/IdValidator',
-        },
-      },
+      Post: idParameterSchema('post'),
+      User: idParameterSchema('user'),
     },
     responses: {
       ...jsonResponseWithSchema('RegisterResponseDto', 'UserDto'),
       ...jsonResponseWithSchema('LoginResponseDto'),
       ...jsonResponseWithSchema('CreatePostResponseDto', 'PostDto'),
-      ...jsonResponseWithSchema('MeResponseDto', 'UserDto'),
+      ...jsonResponseWithSchema('UserResponseDto', 'UserDto'),
 
       SuccessResponse: {
         description: 'Success Response',

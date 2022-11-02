@@ -95,3 +95,11 @@ export const jsonResponseWithSchema = (responseName: string, schemaName = respon
     },
   },
 });
+
+export const idParameterSchema = (name: string) => ({
+  name: name,
+  in: 'path',
+  schema: {
+    $ref: '#/components/schemas/IdValidator',
+  },
+})

@@ -22,7 +22,7 @@ export const UserSchema = new Schema<UserDocument>({
   sex: { type: String, enum: Object.values(Sex) },
 });
 
-UserSchema.plugin(mongooseHidden());
+UserSchema.plugin(mongooseHidden({ defaultHidden: { _id: false } }));
 
 const SALT_WORK_FACTOR = 10;
 

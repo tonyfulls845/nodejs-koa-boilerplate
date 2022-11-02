@@ -18,6 +18,10 @@ export interface PostAppContext<ResponseBody = any, RequestBody = any> extends A
   post: HydratedDocument<PostDocument>;
 }
 
+export interface UserAppContext<ResponseBody = any, RequestBody = any> extends AppContext<ResponseBody, RequestBody> {
+  user: HydratedDocument<UserDocument>;
+}
+
 export type AppState = DefaultState;
 
 export interface ProtectedAppState extends DefaultState {
