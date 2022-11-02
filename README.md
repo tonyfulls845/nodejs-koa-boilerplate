@@ -10,7 +10,9 @@ Source of true can be Joi Validator or Json schema if we don't need validation
 
 - If you have validation (for example on request data or model) place request Joi schemas in ***src/modules/<module-name>/joiSchemas*** it will be converted automatically to TS interfaces and swagger schemas
 
-- if you don't have validation (for example on response data or model) place Json schemas in ***src/jsonSchemas/[responses|models]*** it will be converted automatically to TS interfaces
+- If you don't have validation (for example on response data or model) place Json schemas in ***src/jsonSchemas/[responses|models]*** it will be converted automatically to TS interfaces
+
+- Place reusable validators to ***src/joiValidators***
 
 ### Naming
 
