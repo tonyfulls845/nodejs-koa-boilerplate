@@ -1,6 +1,22 @@
 # ALuzgin NodeJS Training
 
+## Autogenerate swagger models and TS interfaces from Joi validators
 
+Source of true can be Joi Validator or Json schema if we don't need validation
+
+***Joi Validator*** -> ***Json schema*** -> TS interface
+
+### Files structure
+
+- If you have validation (for example on request data or model) place request Joi schemas in ***src/modules/<module-name>/joiSchemas*** it will be converted automatically to TS interfaces and swagger schemas
+
+- if you don't have validation (for example on response data or model) place Json schemas in ***src/jsonSchemas/[responses|models]*** it will be converted automatically to TS interfaces
+
+### Naming
+
+- Use ***RequestDto**, ***ResponseDto** or ***Dto** (For entities) naming for Joi schemas class names it will be converted to TS interfaces and swagger schemas automatically
+
+- Use *Validator for naming validator variables it will be converted to swagger schemas automatically with camelize names
 
 ## Getting started
 
