@@ -20,6 +20,16 @@ Source of true can be Joi Validator or Json schema if we don't need validation
 
 - Use *Validator for naming validator variables it will be converted to swagger schemas automatically with camelize names
 
+## Development
+
+1. Run gulp in one tab to generate interfaces from Joi validators and Json schemas
+
+```gulp```
+
+2. Run app in another tab of console
+
+```yarn start```
+
 ## Getting started
 
 To make it easy for you to get started with GitLab, here's a list of recommended next steps.
