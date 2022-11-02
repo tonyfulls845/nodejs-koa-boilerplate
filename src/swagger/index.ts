@@ -67,12 +67,39 @@ export const oasV3: OpenAPIV3.Document = {
     },
     '/user/{user}': {
       get: {
+        tags: ['auth'],
         summary: 'Get user by id',
         security: [
           {
             BearerAuth: [],
           },
         ],
+        parameters: [
+          {
+            $ref: '#/components/parameters/User',
+          },
+        ],
+        responses: {
+          200: {
+            $ref: '#/components/responses/UserResponseDto',
+          },
+        },
+      },
+      put: {
+        tags: ['auth'],
+        summary: 'Update user by id',
+        security: [
+          {
+            BearerAuth: [],
+          },
+        ],
+        requestBody: {
+          content: availableRequestBodyContent({
+            schema: {
+              $ref: '#/components/schemas/UserDto',
+            },
+          }),
+        },
         parameters: [
           {
             $ref: '#/components/parameters/User',

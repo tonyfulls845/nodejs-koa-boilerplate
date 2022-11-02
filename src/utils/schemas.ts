@@ -52,11 +52,23 @@ export const generateCompileSchema = (
   components: { schemas },
 });
 
-export const generateInterfaces = (src: string, dst: string, variablesMap: Record<string, string>) =>
-  import(src).then(({ swaggerSchemas: allSwaggerSchemas, ...file }) => {
+export const generateInterfaces = (src: string, dst: string, variablesMap: Record<string, RegExp>) =>
+  import(src).then(({ swaggerSchemas }) => {
     Promise.all(
-      Object.entries(variablesMap).map(([variable, interfaceName]) =>
-        compile(generateCompileSchema(file[variable], allSwaggerSchemas), interfaceName).then((ts) => {
+      Object.entries(variablesMap).map(([interfaceName, regexp]) =>
+        compile(
+          generateCompileSchema(
+            Object.entries(swaggerSchemas).reduce((acc, [name, schema]) => {
+              if (name.match(regexp)) {
+                acc[name] = schema;
+              }
+
+              return acc;
+            }, {}),
+            swaggerSchemas,
+          ),
+          interfaceName,
+        ).then((ts) => {
           const [, match] =
             ts.match(new RegExp(`(export\\stype\\s${interfaceName}[\\s\\S]+?;)\\s*(export|$)`, 'i')) || [];
 
@@ -64,7 +76,7 @@ export const generateInterfaces = (src: string, dst: string, variablesMap: Recor
         }),
       ),
     ).then((groupAllInterfaces) => {
-      compile(generateCompileSchema(allSwaggerSchemas, allSwaggerSchemas), 'ALL').then((ts) => {
+      compile(generateCompileSchema(swaggerSchemas, swaggerSchemas), 'ALL').then((ts) => {
         fs.writeFileSync(dst, ts);
         fs.appendFileSync(dst, [...groupAllInterfaces, ''].join('\n'));
 
@@ -102,4 +114,4 @@ export const idParameterSchema = (name: string) => ({
   schema: {
     $ref: '#/components/schemas/IdValidator',
   },
-})
+});

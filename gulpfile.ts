@@ -20,10 +20,10 @@ gulp.task('schema', (done) => {
     });
 
   generateInterfaces(jsonSchemasPath, `${jsonSchemasPath}/interfaces.ts`, {
-    modelsSwaggerSchemas: 'AnyModel',
-    responsesSwaggerSchemas: 'AnyResponse',
-    modulesSwaggerSchemas: 'AnyModuleRequest',
-    validatorsSwaggerSchemas: 'AnyValidator',
+    AnyModel: /.*(?<!ResponseDto|RequestDto|Validator)$/,
+    AnyResponse: /.*ResponseDto/,
+    AnyRequest: /.*RequestDto/,
+    AnyValidator: /.*Validator/,
   }).then(() => done());
 });
 

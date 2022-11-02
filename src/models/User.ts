@@ -3,7 +3,7 @@ import { Document, Model, Schema, model } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
 import { UserDto } from '../jsonSchemas/interfaces';
-import { Sex } from '../jsonSchemas/models';
+import { Sex } from '../modules/user/enums';
 
 export interface UserHiddenDto extends UserDto {
   password: string;

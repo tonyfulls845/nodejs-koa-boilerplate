@@ -1,6 +1,7 @@
 import * as joiValidators from '../joiValidators';
 import * as authJoiSchemas from '../modules/auth/joiSchemas';
 import * as postJoiSchemas from '../modules/post/joiSchemas';
+import * as userJoiSchemas from '../modules/user/joiSchemas';
 import {
   joiSchemasToSwaggerSchemas,
   joiValidatorsToSwaggerSchemas,
@@ -13,12 +14,13 @@ import * as responsesJsonSchemas from './responses';
 const modulesJoiSchemas = {
   ...authJoiSchemas,
   ...postJoiSchemas,
+  ...userJoiSchemas,
 };
 
-export const validatorsSwaggerSchemas = joiValidatorsToSwaggerSchemas(joiValidators);
-export const modelsSwaggerSchemas = jsonSchemasToSwaggerSchemas(modelsJsonSchemas);
-export const responsesSwaggerSchemas = jsonSchemasToSwaggerSchemas(responsesJsonSchemas);
-export const modulesSwaggerSchemas = joiSchemasToSwaggerSchemas(modulesJoiSchemas);
+const validatorsSwaggerSchemas = joiValidatorsToSwaggerSchemas(joiValidators);
+const modelsSwaggerSchemas = jsonSchemasToSwaggerSchemas(modelsJsonSchemas);
+const responsesSwaggerSchemas = jsonSchemasToSwaggerSchemas(responsesJsonSchemas);
+const modulesSwaggerSchemas = joiSchemasToSwaggerSchemas(modulesJoiSchemas);
 
 export const swaggerSchemas = {
   ...modelsSwaggerSchemas,

@@ -2,10 +2,11 @@ import Joi from 'joi';
 
 import { NotFoundError } from '../../interfaces/errors';
 import { idValidator } from '../../joiValidators';
-import { validateMiddleware } from '../../middlewares';
+import { checkAllowUserEditMiddleware, validateMiddleware } from '../../middlewares';
 import { User } from '../../models';
 import { protectedRouter } from '../../router';
 
+import { userDtoJoiSchema } from './joiSchemas';
 import * as controller from './user.controller';
 
 protectedRouter
@@ -23,4 +24,5 @@ protectedRouter
     }
     await next();
   })
-  .get('/user/:user', controller.show);
+  .get('/user/:user', controller.show)
+  .put('/user/:user', validateMiddleware({ body: userDtoJoiSchema }), checkAllowUserEditMiddleware, controller.update);
