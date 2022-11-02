@@ -6,6 +6,13 @@ import { OpenAPIV3 } from 'openapi-types';
 
 import { capitalize } from './string';
 
+const defaultVariablesMap = {
+  AnyModel: /.*(?<!ResponseDto|RequestDto|Validator)$/,
+  AnyRequest: /.*RequestDto/,
+  AnyResponse: /.*ResponseDto/,
+  AnyValidator: /.*Validator/,
+};
+
 const isJsonSchema = (name: string, schema: unknown): schema is OpenAPIV3.SchemaObject => /^.+JsonSchema$/.test(name);
 const isJoiSchema = (name: string, schema: unknown): schema is OpenAPIV3.SchemaObject => /^.+JoiSchema$/.test(name);
 
@@ -33,6 +40,17 @@ export const joiSchemasToSwaggerSchemas = (joiSchemas: Record<string, any>) =>
     return acc;
   }, {});
 
+export const sortSchemas = (swaggerSchemas, variablesMap = defaultVariablesMap) =>
+  Object.values(variablesMap).reduce((acc, regexp) => {
+    Object.entries(swaggerSchemas).forEach(([name, schema]) => {
+      if (name.match(regexp)) {
+        acc[name] = schema;
+      }
+    }, {});
+
+    return acc;
+  }, {});
+
 export const joiValidatorsToSwaggerSchemas = <T extends Record<string, AnySchema>, K extends keyof T>(
   joiValidators: T,
 ): Record<K extends string ? Capitalize<K> : string, OpenAPIV3.SchemaObject> =>
@@ -52,12 +70,17 @@ export const generateCompileSchema = (
   components: { schemas },
 });
 
-export const generateInterfaces = (src: string, dst: string, variablesMap: Record<string, RegExp>) =>
+export const generateInterfaces = (
+  src: string,
+  dst: string,
+  variablesMap: Record<string, RegExp> = defaultVariablesMap,
+) =>
   import(src).then(({ swaggerSchemas }) => {
     Promise.all(
       Object.entries(variablesMap).map(([interfaceName, regexp]) =>
         compile(
           generateCompileSchema(
+            // Filter schemas according current group (Model, Response, Request, Validator)
             Object.entries(swaggerSchemas).reduce((acc, [name, schema]) => {
               if (name.match(regexp)) {
                 acc[name] = schema;

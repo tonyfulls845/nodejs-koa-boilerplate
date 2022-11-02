@@ -6,6 +6,7 @@ import {
   joiSchemasToSwaggerSchemas,
   joiValidatorsToSwaggerSchemas,
   jsonSchemasToSwaggerSchemas,
+  sortSchemas,
 } from '../utils/schemas';
 
 import * as modelsJsonSchemas from './models';
@@ -22,9 +23,9 @@ const modelsSwaggerSchemas = jsonSchemasToSwaggerSchemas(modelsJsonSchemas);
 const responsesSwaggerSchemas = jsonSchemasToSwaggerSchemas(responsesJsonSchemas);
 const modulesSwaggerSchemas = joiSchemasToSwaggerSchemas(modulesJoiSchemas);
 
-export const swaggerSchemas = {
+export const swaggerSchemas = sortSchemas({
   ...modelsSwaggerSchemas,
   ...responsesSwaggerSchemas,
   ...validatorsSwaggerSchemas,
   ...modulesSwaggerSchemas,
-};
+});

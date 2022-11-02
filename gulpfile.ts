@@ -19,12 +19,7 @@ gulp.task('schema', (done) => {
       delete require.cache[path];
     });
 
-  generateInterfaces(jsonSchemasPath, `${jsonSchemasPath}/interfaces.ts`, {
-    AnyModel: /.*(?<!ResponseDto|RequestDto|Validator)$/,
-    AnyResponse: /.*ResponseDto/,
-    AnyRequest: /.*RequestDto/,
-    AnyValidator: /.*Validator/,
-  }).then(() => done());
+  generateInterfaces(jsonSchemasPath, `${jsonSchemasPath}/interfaces.ts`).then(() => done());
 });
 
 // Watch Task
