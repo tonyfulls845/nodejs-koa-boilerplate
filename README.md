@@ -58,3 +58,4 @@ yarn start
 ## Roadmap
 
 - [ ] Implement tests with testing feature relates to data in DB
+- [ ] Handle Ctrl+C to correct close of nodemon
