@@ -1,7 +1,6 @@
 import Koa from 'koa';
 import { koaSwagger } from 'koa2-swagger-ui';
 import bodyparser from 'koa-bodyparser';
-import mongoose from 'mongoose';
 
 import { HOST, MONGO_URI, PORT } from './config';
 import { convertKoaThrowMiddleware, errorHandlerMiddleware } from './middlewares';
@@ -12,8 +11,6 @@ import { protectedRouter, router } from './router';
 import { oasV3 } from './swagger';
 
 export const app = new Koa();
-
-mongoose.connect(MONGO_URI);
 
 app.use(errorHandlerMiddleware);
 app.use(convertKoaThrowMiddleware);

@@ -4,7 +4,10 @@
     "es6": true
   },
   "plugins": [
-    "@typescript-eslint", "prettier", "import"
+    "@typescript-eslint",
+    "prettier",
+    "import",
+    "json-format"
   ],
   "extends": [
     "plugin:@typescript-eslint/recommended",
@@ -13,7 +16,17 @@
     "plugin:import/typescript"
   ],
   "parser": "@typescript-eslint/parser",
+  "settings": {
+    "json/sort-package-json": "standard",
+    "json/json-with-comments-files": [
+      ".vscode/**"
+    ]
+  },
+  "ignorePatterns": [
+    "!.*"
+  ],
   "rules": {
+    "json/*": "error",
     "prettier/prettier": "error"
   }
 }

@@ -1,9 +1,9 @@
 /**
  * Make any changes you need to make to the database here
  */
-import { Role } from '../src/models';
+import { Role } from '../models';
 
-async function up() {
+export async function up() {
   await Role.create({ code: 'admin' });
   await Role.create({ code: 'user' });
 }
@@ -11,7 +11,7 @@ async function up() {
 /**
  * Make any changes that UNDO the up function side effects here (if possible)
  */
-async function down() {
+export async function down() {
   await Role.find({ code: 'admin' }).remove();
   await Role.find({ code: 'user' }).remove();
 }

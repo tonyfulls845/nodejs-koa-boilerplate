@@ -39,4 +39,4 @@ const { MONGO_DB_NAME, NODE_ENV } = envVars;
 
 export const { PORT, HOST, JWT_SECRET, JWT_EXPIRATION } = envVars;
 
-export const MONGO_URI = `mongodb://localhost/${MONGO_DB_NAME}-${NODE_ENV}`;
+export const MONGO_URI = `mongodb://localhost:27017/${MONGO_DB_NAME}-${NODE_ENV}`;

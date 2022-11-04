@@ -42,17 +42,12 @@ yarn
 docker-compose up -d
 ```
 
-3. Run gulp in one tab to generate interfaces from Joi validators and Json schemas.
-It will be started in watch mode, and you can edit all files interface will be rebuilt automatically. You should restart this script only if you change generation script
+3. Run app
+It will be started in watch mode, and you can edit all files all will be rebuilt automatically. You should restart this script only if you change generation script.
+It run script ***src/scripts/start.ts*** in which we run gulp for generating interfaces and nodeamon to start app on rebuild
 
 ```
-gulp
-```
-
-4. Run app in watch mode in another tab of console
-
-```
-yarn start
+yarn serve
 ```
 
 ## Roadmap
