@@ -37,4 +37,6 @@ process.once('SIGUSR2', function () {
 process.on('SIGINT', function () {
   // this is only called on ctrl+c, not restart
   process.kill(process.pid, 'SIGINT');
+  console.log('\nGracefully shutting down from SIGINT (Ctrl-C)');
+  process.exit(0);
 });

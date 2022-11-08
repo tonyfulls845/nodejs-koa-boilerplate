@@ -33,7 +33,7 @@ export type AnyResponse = LoginResponseDto;
 
 1. Install dependencies in first run or skip it
 ```
-yarn
+yarn && yarn build
 ```
 
 2. Run docker containers with api services like Mongo DB
@@ -53,4 +53,4 @@ yarn serve
 ## Roadmap
 
 - [ ] Implement tests with testing feature relates to data in DB
-- [ ] Handle Ctrl+C to correct close of nodemon
+- [x] Handle Ctrl+C to correct close of nodemon

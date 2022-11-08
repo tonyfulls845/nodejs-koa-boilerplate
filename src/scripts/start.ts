@@ -3,9 +3,10 @@ import spawn from 'cross-spawn';
 const spawnWithConsole = (
   name: string,
   command: string,
+  args = [] as string[],
   transform: (...args: any[]) => string = (...args) => args.join(','),
 ) => {
-  const childProcess = spawn(command);
+  const childProcess = spawn(command, args);
 
   const finalTransform = (data: any) => transform(`[${name}]: ${data}`);
 
@@ -23,4 +24,4 @@ const spawnWithConsole = (
 };
 
 spawnWithConsole('Gulp watching interfaces', 'gulp');
-spawnWithConsole('Nodemon watching app', 'nodemon --delay 500ms');
+spawnWithConsole('Nodemon watching app', 'nodemon', ['--delay', '500ms']);
