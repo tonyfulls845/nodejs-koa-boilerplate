@@ -1,12 +1,15 @@
 import dotenv from 'dotenv';
+import { expand } from 'dotenv-expand';
 import Joi from 'joi';
 import path from 'path';
 
-dotenv.config({ path: path.join(__dirname, '../.env') });
+const env = dotenv.config({ path: path.join(__dirname, '../.env') });
+expand(env);
 
 const envVarsSchema = Joi.object<{
-  NODE_ENV: string;
+  NODE_ENV: 'development' | 'production' | 'test';
   PORT: number;
+  MONGO_DB_HOST: string;
   MONGO_USERNAME: string;
   MONGO_PASSWORD: string;
   MONGO_DB_NAME: string;
@@ -17,6 +20,7 @@ const envVarsSchema = Joi.object<{
   .keys({
     NODE_ENV: Joi.string().valid('production', 'development', 'test').required(),
     PORT: Joi.number().required().description('App port'),
+    MONGO_DB_HOST: Joi.string().required().description('Mongo DB host'),
     MONGO_DB_NAME: Joi.string().required().description('Mongo DB name'),
     MONGO_USERNAME: Joi.string().required().description('Mongo DB username'),
     MONGO_PASSWORD: Joi.string().required().description('Mongo DB password'),
@@ -35,8 +39,9 @@ if (error) {
   throw new Error(`Config validation error: ${error.message}`);
 }
 
-const { MONGO_DB_NAME, NODE_ENV } = envVars;
+const { MONGO_DB_NAME, NODE_ENV, MONGO_DB_HOST } = envVars;
 
 export const { PORT, HOST, JWT_SECRET, JWT_EXPIRATION } = envVars;
+export { NODE_ENV };
 
-export const MONGO_URI = `mongodb://localhost:27017/${MONGO_DB_NAME}-${NODE_ENV}`;
+export const MONGO_URI = `${MONGO_DB_HOST}/${MONGO_DB_NAME}-${NODE_ENV}`;

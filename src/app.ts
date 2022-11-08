@@ -2,7 +2,7 @@ import Koa from 'koa';
 import { koaSwagger } from 'koa2-swagger-ui';
 import bodyparser from 'koa-bodyparser';
 
-import { HOST, MONGO_URI, PORT } from './config';
+import { HOST, NODE_ENV, PORT } from './config';
 import { convertKoaThrowMiddleware, errorHandlerMiddleware } from './middlewares';
 import './modules/auth';
 import './modules/post';
@@ -26,7 +26,10 @@ app.use(
 app.use(router.routes());
 app.use(protectedRouter.routes());
 
-app.listen(PORT, HOST);
+// In a test environment, when running the server through Supertest, you don't need to have the app listen on a network port.
+if (NODE_ENV !== 'test') {
+  app.listen(PORT);
+}
 
 console.info(`Running app on ${HOST}:${PORT}`);
 
