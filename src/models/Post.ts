@@ -1,7 +1,9 @@
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 
 import { NestedModelWithId } from '../interfaces/generics';
 import { PostDto } from '../jsonSchemas/interfaces';
+
+import { mongoose } from './connect';
 
 export interface PostDocument extends NestedModelWithId<PostDto>, Document<any, any, NestedModelWithId<PostDto>> {}
 
@@ -12,4 +14,4 @@ export const PostSchema = new Schema<PostDocument>({
   user: { type: Schema.Types.ObjectId, ref: 'User' },
 });
 
-export const Post = model<PostDocument, PostModel>('Post', PostSchema);
+export const Post = mongoose.model<PostDocument, PostModel>('Post', PostSchema);

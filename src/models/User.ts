@@ -1,9 +1,11 @@
 import bcrypt from 'bcrypt';
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
 import { UserDto } from '../jsonSchemas/interfaces';
 import { Sex } from '../modules/user/enums';
+
+import { mongoose } from './connect';
 
 export interface UserHiddenDto extends UserDto {
   password: string;
@@ -38,4 +40,4 @@ UserSchema.methods.comparePassword = async function (candidatePassword: string) 
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export const User = model<UserDocument, UserModel>('User', UserSchema);
+export const User = mongoose.model<UserDocument, UserModel>('User', UserSchema);

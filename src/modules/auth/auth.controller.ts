@@ -8,6 +8,8 @@ import * as authService from './auth.service';
 
 export const register: Router.Middleware<DefaultState, AppContext<UserDto, RegisterRequestDto>> = async (ctx) => {
   ctx.body = await authService.register(ctx.validatedRequest.value.body);
+
+  ctx.status = 201;
 };
 
 export const login: Router.Middleware<DefaultState, AppContext<LoginResponseDto, LoginRequestDto>> = async (ctx) => {

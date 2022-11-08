@@ -1,6 +1,8 @@
-import { Document, Model, Schema, model } from 'mongoose';
+import { Document, Model, Schema } from 'mongoose';
 
 import { RoleDto } from '../jsonSchemas/interfaces';
+
+import { mongoose } from './connect';
 
 export interface RoleDocument extends RoleDto, Document<any, any, RoleDto> {}
 
@@ -10,4 +12,4 @@ export const RoleSchema = new Schema<RoleDocument>({
   code: { type: String, required: true, maxlength: 256 },
 });
 
-export const Role = model<RoleDocument, RoleModel>('Role', RoleSchema);
+export const Role = mongoose.model<RoleDocument, RoleModel>('Role', RoleSchema);
