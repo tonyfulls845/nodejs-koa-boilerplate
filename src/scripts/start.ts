@@ -1,4 +1,8 @@
 import spawn from 'cross-spawn';
+import open from 'open';
+
+import { APP_URI, NODE_ENV } from '../config';
+import { routes } from '../constants/routes';
 
 const spawnWithConsole = (
   name: string,
@@ -25,3 +29,7 @@ const spawnWithConsole = (
 
 spawnWithConsole('Gulp watching interfaces', 'gulp');
 spawnWithConsole('Nodemon watching app', 'nodemon', ['--delay', '500ms']);
+
+if (NODE_ENV === 'development') {
+  open(`${APP_URI}/${routes.swagger}`);
+}

@@ -3,6 +3,7 @@ import { router } from '../../router';
 
 import * as controller from './auth.controller';
 import { loginRequestJoiSchema, registerRequestJoiSchema } from './joiSchemas';
+import { routes } from "../../constants/routes";
 
-router.post('/register', validateMiddleware({ body: registerRequestJoiSchema }), controller.register);
-router.post('/login', validateMiddleware({ body: loginRequestJoiSchema }), controller.login);
+router.post(routes.register, validateMiddleware({ body: registerRequestJoiSchema }), controller.register);
+router.post(routes.login, validateMiddleware({ body: loginRequestJoiSchema }), controller.login);

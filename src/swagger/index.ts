@@ -1,6 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 import { HOST, PORT } from '../config';
+import {apiPrefix, routes, routesParams} from '../constants/routes';
 import { swaggerSchemas } from '../jsonSchemas';
 import { availableRequestBodyContent, idParameterSchema, jsonResponseWithSchema } from '../utils/schemas';
 
@@ -11,7 +12,7 @@ export const oasV3: OpenAPIV3.Document = {
     description: 'Swagger with auto generate models from Joi validators',
     version: 'v1',
   },
-  servers: [{ url: `http://${HOST}:${PORT}/api` }],
+  servers: [{ url: `http://${HOST}:${PORT}${apiPrefix}` }],
   paths: {
     '/register': {
       post: {
@@ -31,7 +32,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/login': {
+    [routes.login]: {
       post: {
         tags: ['auth'],
         summary: 'Login',
@@ -49,7 +50,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/me': {
+    [routes.me]: {
       get: {
         tags: ['auth'],
         summary: 'Me',
@@ -65,7 +66,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/user/{user}': {
+    [`${routes.user}/{${routesParams.user}`]: {
       get: {
         tags: ['auth'],
         summary: 'Get user by id',
@@ -112,7 +113,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/post': {
+    [routes.post]: {
       post: {
         tags: ['post'],
         summary: 'Add new post',
@@ -135,7 +136,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    '/post/{post}': {
+    [`${routes.post}/{${routesParams.post}`]: {
       delete: {
         tags: ['post'],
         summary: 'Delete post with given id',

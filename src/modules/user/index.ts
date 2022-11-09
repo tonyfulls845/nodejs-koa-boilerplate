@@ -8,10 +8,11 @@ import { protectedRouter } from '../../router';
 
 import { userDtoJoiSchema } from './joiSchemas';
 import * as controller from './user.controller';
+import {routes} from "../../constants/routes";
 
 protectedRouter
-  .get('/me', controller.me)
-  .param('user', async (id, ctx, next) => {
+  .get(routes.me, controller.me)
+  .param(routes.user, async (id, ctx, next) => {
     await validateMiddleware({
       params: Joi.object({
         post: idValidator,
@@ -24,5 +25,5 @@ protectedRouter
     }
     await next();
   })
-  .get('/user/:user', controller.show)
-  .put('/user/:user', validateMiddleware({ body: userDtoJoiSchema }), checkAllowUserEditMiddleware, controller.update);
+  .get(routes.userDetail, controller.show)
+  .put(routes.userDetail, validateMiddleware({ body: userDtoJoiSchema }), checkAllowUserEditMiddleware, controller.update);

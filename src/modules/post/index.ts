@@ -8,10 +8,11 @@ import { protectedRouter } from '../../router';
 
 import { createPostRequestJoiSchema } from './joiSchemas';
 import * as controller from './post.controller';
+import {routes, routesParams} from "../../constants/routes";
 
 protectedRouter
-  .post('/post', validateMiddleware({ body: createPostRequestJoiSchema }), controller.create)
-  .param('post', async (id, ctx, next) => {
+  .post(routes.post, validateMiddleware({ body: createPostRequestJoiSchema }), controller.create)
+  .param(routesParams.post, async (id, ctx, next) => {
     await validateMiddleware({
       params: Joi.object({
         post: idValidator,
@@ -24,4 +25,4 @@ protectedRouter
     }
     await next();
   })
-  .delete('/post/:post', checkPostOwnerMiddleware, controller.remove);
+  .delete(routes.postDetail, checkPostOwnerMiddleware, controller.remove);

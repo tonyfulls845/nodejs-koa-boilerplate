@@ -8,12 +8,12 @@ expand(env);
 
 const envVarsSchema = Joi.object<{
   NODE_ENV: 'development' | 'production' | 'test';
+  HOST: string;
   PORT: number;
   MONGO_DB_HOST: string;
   MONGO_USERNAME: string;
   MONGO_PASSWORD: string;
   MONGO_DB_NAME: string;
-  HOST: string;
   JWT_SECRET: string;
   JWT_EXPIRATION: string;
 }>()
@@ -45,3 +45,4 @@ export const { PORT, HOST, JWT_SECRET, JWT_EXPIRATION } = envVars;
 export { NODE_ENV };
 
 export const MONGO_URI = `${MONGO_DB_HOST}/${MONGO_DB_NAME}-${NODE_ENV}`;
+export const APP_URI = `http://${HOST}:${PORT}`

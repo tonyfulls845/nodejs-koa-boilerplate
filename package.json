@@ -38,6 +38,7 @@
     "mongoose-hidden": "^1.9.1",
     "nodemon": "^2.0.20",
     "oas": "^18.4.4",
+    "open": "^8.4.0",
     "through2": "^4.0.2",
     "ts-node": "^10.9.1"
   },
