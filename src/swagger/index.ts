@@ -66,7 +66,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    [`${routes.user}/{${routesParams.user}`]: {
+    [`${routes.user}/{${routesParams.user}}`]: {
       get: {
         tags: ['auth'],
         summary: 'Get user by id',
@@ -136,7 +136,7 @@ export const oasV3: OpenAPIV3.Document = {
         },
       },
     },
-    [`${routes.post}/{${routesParams.post}`]: {
+    [`${routes.post}/{${routesParams.post}}`]: {
       delete: {
         tags: ['post'],
         summary: 'Delete post with given id',
