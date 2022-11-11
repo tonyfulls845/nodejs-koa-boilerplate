@@ -45,4 +45,4 @@ export const { PORT, HOST, JWT_SECRET, JWT_EXPIRATION } = envVars;
 export { NODE_ENV };
 
 export const MONGO_URI = `${MONGO_DB_HOST}/${MONGO_DB_NAME}-${NODE_ENV}`;
-export const APP_URI = `http://${HOST}:${PORT}`
+export const APP_URI = `http://${HOST}:${PORT}`;

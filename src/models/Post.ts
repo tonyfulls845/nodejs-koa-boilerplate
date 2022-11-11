@@ -1,9 +1,7 @@
-import { Document, Model, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema } from 'mongoose';
 
 import { NestedModelWithId } from '../interfaces/generics';
 import { PostDto } from '../jsonSchemas/interfaces';
-
-import { mongoose } from './connect';
 
 export interface PostDocument extends NestedModelWithId<PostDto>, Document<any, any, NestedModelWithId<PostDto>> {}
 
