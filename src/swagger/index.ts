@@ -1,7 +1,7 @@
 import { OpenAPIV3 } from 'openapi-types';
 
 import { HOST, PORT } from '../config';
-import {apiPrefix, routes, routesParams} from '../constants/routes';
+import { apiPrefix, routes, routesParams } from '../constants/routes';
 import { swaggerSchemas } from '../jsonSchemas';
 import { availableRequestBodyContent, idParameterSchema, jsonResponseWithSchema } from '../utils/schemas';
 

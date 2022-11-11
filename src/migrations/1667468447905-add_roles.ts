@@ -1,13 +1,9 @@
 /**
  * Make any changes you need to make to the database here
  */
-import mongoose from 'mongoose';
-
-import { Role } from '../models';
+import { Role } from '../modelsConnected';
 
 export async function up() {
-  await mongoose.connection.dropDatabase();
-
   await Role.create({ code: 'admin' });
   await Role.create({ code: 'user' });
 }

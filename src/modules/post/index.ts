@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { routes, routesParams } from '../../constants/routes';
 import { NotFoundError } from '../../interfaces/errors';
 import { idValidator } from '../../joiValidators';
 import { checkPostOwnerMiddleware, validateMiddleware } from '../../middlewares';
@@ -8,7 +9,6 @@ import { protectedRouter } from '../../router';
 
 import { createPostRequestJoiSchema } from './joiSchemas';
 import * as controller from './post.controller';
-import {routes, routesParams} from "../../constants/routes";
 
 protectedRouter
   .post(routes.post, validateMiddleware({ body: createPostRequestJoiSchema }), controller.create)

@@ -1,5 +1,6 @@
 import Joi from 'joi';
 
+import { routes } from '../../constants/routes';
 import { NotFoundError } from '../../interfaces/errors';
 import { idValidator } from '../../joiValidators';
 import { checkAllowUserEditMiddleware, validateMiddleware } from '../../middlewares';
@@ -8,7 +9,6 @@ import { protectedRouter } from '../../router';
 
 import { userDtoJoiSchema } from './joiSchemas';
 import * as controller from './user.controller';
-import {routes} from "../../constants/routes";
 
 protectedRouter
   .get(routes.me, controller.me)
@@ -26,4 +26,9 @@ protectedRouter
     await next();
   })
   .get(routes.userDetail, controller.show)
-  .put(routes.userDetail, validateMiddleware({ body: userDtoJoiSchema }), checkAllowUserEditMiddleware, controller.update);
+  .put(
+    routes.userDetail,
+    validateMiddleware({ body: userDtoJoiSchema }),
+    checkAllowUserEditMiddleware,
+    controller.update,
+  );

@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
-import mongoose from 'mongoose';
 
 import { MONGO_URI } from '../config';
+import { mongoose } from '../models';
 
 export default async () => {
   console.info('setup db');
@@ -9,5 +9,7 @@ export default async () => {
   await mongoose.connect(MONGO_URI);
   await mongoose.connection.dropDatabase();
 
-  execSync('migrate up --autosync', { stdio: 'inherit' });
+  const migrateRes = execSync(`migrate up --dbConnectionUri ${MONGO_URI} --autosync`);
+
+  console.info(migrateRes.toString());
 };
