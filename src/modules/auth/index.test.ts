@@ -55,6 +55,7 @@ describe('Router', () => {
           .get(`${apiPrefix}${routes.me}`)
           .set('Authorization', 'Bearer ' + token);
 
+        expect(pick(response.body, ...userProps)).toEqual(pick(login2RequestData, ...userProps));
         expect(response.status).toBe(200);
       });
 
