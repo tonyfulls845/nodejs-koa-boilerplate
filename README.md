@@ -1,4 +1,14 @@
-# ALuzgin NodeJS Training
+# NodeJS Boilerplate
+
+- ES6
+- Koa
+- Typescript with auto generating of models
+- MongoDB + Mongoose
+- Joi validation
+- API documentation with auto generating of models for swagger
+- Migrations
+- Docker support
+- Eslint + Prettier
 
 ## Autogenerate Json schemas for swagger and TS interfaces from Joi validators
 
