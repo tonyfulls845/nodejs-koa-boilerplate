@@ -49,8 +49,3 @@ It run script ***src/scripts/start.ts*** in which we run gulp for generating int
 ```
 yarn serve
 ```
-
-## Roadmap
-
-- [ ] Implement tests with testing feature relates to data in DB
-- [x] Handle Ctrl+C to correct close of nodemon
