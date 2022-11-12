@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
-import { Document, Model, Schema } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 import mongooseHidden from 'mongoose-hidden';
 
 import { UserDto } from '../jsonSchemas/interfaces';
 import { Sex } from '../modules/user/enums';
+import { Document } from '../utils/models';
 
 import { mongoose } from './mongoose';
 
@@ -11,17 +12,19 @@ export interface UserHiddenDto extends UserDto {
   password: string;
 }
 
-export interface UserDocument extends UserHiddenDto, Document<any, any, UserHiddenDto> {
+export interface UserDocument extends Document<UserHiddenDto> {
   comparePassword: (password: string) => Promise<boolean>;
 }
 
 export type UserModel = Model<UserDocument>;
 
 export const UserSchema = new Schema<UserDocument>({
+  email: { type: String, required: true, maxlength: 256 },
   firstName: { type: String, required: true, maxlength: 256 },
   lastName: { type: String, required: true, maxlength: 256 },
   password: { type: String, hide: true },
   sex: { type: String, enum: Object.values(Sex) },
+  roles: [{ type: mongoose.Types.ObjectId, ref: 'Role' }],
 });
 
 UserSchema.plugin(mongooseHidden({ defaultHidden: { _id: false } }));

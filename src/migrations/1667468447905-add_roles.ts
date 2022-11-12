@@ -1,11 +1,12 @@
 /**
  * Make any changes you need to make to the database here
  */
+import { RoleDto } from '../jsonSchemas/interfaces';
 import { Role } from '../modelsConnected';
 
 export async function up() {
-  await Role.create({ code: 'admin' });
-  await Role.create({ code: 'user' });
+  await Role.create<RoleDto>({ code: 'admin' });
+  await Role.create<RoleDto>({ code: 'user' });
 }
 
 /**

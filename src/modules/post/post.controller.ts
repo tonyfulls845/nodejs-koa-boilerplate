@@ -11,6 +11,7 @@ export const create: Router.Middleware<
   AppContext<NestedModelWithId<PostDto>, CreatePostRequestDto>
 > = async (ctx) => {
   ctx.body = await postService.create(ctx.validatedRequest.value.body, ctx.state.user.data);
+  ctx.status = 201;
 };
 
 export const remove: Router.Middleware<ProtectedAppState, PostAppContext<PostDto, CreatePostRequestDto>> = async (

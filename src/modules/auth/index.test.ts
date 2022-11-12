@@ -3,31 +3,18 @@ import request from 'supertest';
 
 import { app } from '../../app';
 import { apiPrefix, routes } from '../../constants/routes';
-import { RegisterRequestDto } from '../../jsonSchemas/interfaces';
 import { User } from '../../models';
-
-const getRegisterRequestData = (email: string): RegisterRequestDto => ({
-  firstName: 'Jonh',
-  lastName: 'Smith',
-  sex: 'male',
-  password: 'password',
-  email,
-});
-
-const registerRequestData = getRegisterRequestData('register@example.com');
-const login1RequestData = getRegisterRequestData('login1@example.com');
-const login2RequestData = getRegisterRequestData('login2@example.com');
+import { AuthRef, getRegisterRequestData, loginRequest, registerRequest, useAuth } from '../../tests/hooks/useAuth';
+import { setAuthHeader } from '../../tests/plugins/setAuthHeader';
 
 const userProps = ['firstName', 'lastName', 'sex'];
 
-const registerRequest = async (data: RegisterRequestDto) =>
-  await request(app.callback()).post(`${apiPrefix}${routes.register}`).send(data);
-
-const loginRequest = async ({ email, password }: RegisterRequestDto) =>
-  await request(app.callback()).post(`${apiPrefix}${routes.login}`).send({ email, password });
-
-describe('Router', () => {
+describe('Auth router', () => {
   describe('Public', () => {
+    const login1RequestData = getRegisterRequestData(`login1${Math.random()}@example.com`);
+    const login2RequestData = getRegisterRequestData(`login2${Math.random()}@example.com`);
+    const registerRequestData = getRegisterRequestData(`register${Math.random()}@example.com`);
+
     test('Test register new user', async () => {
       const response = await registerRequest(registerRequestData);
       expect(response.status).toBe(201);
@@ -42,25 +29,17 @@ describe('Router', () => {
     });
 
     describe('Protected', () => {
-      let token: string;
-
-      beforeAll(async () => {
-        await registerRequest(login2RequestData);
-        const response = await loginRequest(login2RequestData);
-        token = response.body.token;
-      });
+      const authRef: AuthRef = {};
+      useAuth(login2RequestData, authRef, true);
 
       test('Test me', async () => {
         const response = await request(app.callback())
           .get(`${apiPrefix}${routes.me}`)
-          .set('Authorization', 'Bearer ' + token);
+          .use(setAuthHeader(authRef.token));
+
+        expect(response.status).toBe(200);
 
         expect(pick(response.body, ...userProps)).toEqual(pick(login2RequestData, ...userProps));
-        expect(response.status).toBe(200);
-      });
-
-      afterAll(async () => {
-        await User.deleteOne({ email: login2RequestData.email });
       });
     });
 

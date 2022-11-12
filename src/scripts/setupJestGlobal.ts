@@ -1,4 +1,5 @@
 import { execSync } from 'child_process';
+import path from 'path';
 
 import { MONGO_URI } from '../config';
 import { mongoose } from '../models';
@@ -9,7 +10,9 @@ export default async () => {
   await mongoose.connect(MONGO_URI);
   await mongoose.connection.dropDatabase();
 
-  const migrateRes = execSync(`migrate up --dbConnectionUri ${MONGO_URI} --autosync`);
+  const migrateRes = execSync(
+    `${path.resolve(__dirname, '../../node_modules/.bin/migrate')} up --dbConnectionUri ${MONGO_URI} --autosync`,
+  );
 
   console.info(migrateRes.toString());
 };

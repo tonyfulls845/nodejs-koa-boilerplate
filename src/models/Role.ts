@@ -1,10 +1,11 @@
-import { Document, Model, Schema } from 'mongoose';
+import { Model, Schema } from 'mongoose';
 
 import { RoleDto } from '../jsonSchemas/interfaces';
+import { Document } from '../utils/models';
 
 import { mongoose } from './mongoose';
 
-export interface RoleDocument extends RoleDto, Document<any, any, RoleDto> {}
+export type RoleDocument = Document<RoleDto>;
 
 export type RoleModel = Model<RoleDocument>;
 
