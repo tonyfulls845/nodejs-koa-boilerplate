@@ -10,9 +10,9 @@ export default async () => {
   await mongoose.connect(MONGO_URI);
   await mongoose.connection.dropDatabase();
 
-  const migrateRes = execSync(
-    `${path.resolve(__dirname, '../../node_modules/.bin/migrate')} up --dbConnectionUri ${MONGO_URI} --autosync`,
+  console.info(
+    execSync(
+      `${path.resolve(__dirname, '../../node_modules/.bin/migrate')} up --dbConnectionUri ${MONGO_URI} --autosync`,
+    ).toString(),
   );
-
-  console.info(migrateRes.toString());
 };
